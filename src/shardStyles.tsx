@@ -14,3 +14,7 @@ export const FullPageView = styled.View<{background?: string}>`
   flex: 1;
   ${({background}) => (background ? 'background:' + background : '')}
 `;
+
+export const BaseText = styled.Text`
+  includeFontPadding: false;
+`;

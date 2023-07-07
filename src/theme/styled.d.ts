@@ -41,6 +41,9 @@ export interface IColors {
   };
   secondaryProminentText: string;
   lightText: string;
+  darkBlue: string;
+  mediumBlue: string;
+  lightBlue: string;
   gentleText: string;
   secondaryGentleText: string;
   transparent: string;

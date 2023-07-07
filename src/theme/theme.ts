@@ -39,7 +39,9 @@ export const colors: IColors = {
     green: '#4AC4AE',
     greenLight: 'rgba(74, 196, 174, 0.2)',
   },
-
+  darkBlue: 'rgba(26, 46, 109, 1)',
+  mediumBlue: '#012231',
+  lightBlue: '#013349',
   lightText: '#E5E5E5',
   secondaryProminentText: '#01162D',
   gentleText: '#AD9B87',

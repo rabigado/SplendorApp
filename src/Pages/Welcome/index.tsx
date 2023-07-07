@@ -1,35 +1,60 @@
-import React from 'react';
-import {Button, Text, View} from 'react-native';
-import {FullPageView} from '../../shardStyles';
-import styled from 'styled-components/native';
-// import {LinearGradient} from 'expo-linear-gradient';
+import React from "react";
+import { Button, Text, View } from "react-native";
+import { BaseText, FullPageView } from "../../shardStyles";
+import styled from "styled-components/native";
+import LinearGradient from "react-native-linear-gradient";
+import { deviceWidth } from "../../utils/dimensionHelper";
+import { colors } from "../../theme/theme";
 
-const MainImageAsset = require('../../assets/images/Splendour-image.png');
+const MainImageAsset = require("../../assets/images/Splendor-Board-Game.jpg.png");
 export default () => {
   return (
-    <FullPageView>
-      <Text style={{fontSize: 24}}>Welcome to splendor</Text>
-      <View>
-        {/*<StyledLinarGradiant colors={['#4c669f', '#3b5998', '#192f6a']}>*/}
-        <StyledImage source={MainImageAsset} />
-        {/*</StyledLinarGradiant>*/}
-        <Button
-          title={'Start a new game'}
-          onPress={() => console.log('press')}
-        />
-      </View>
+    <FullPageView background={colors.darkBlue}>
+      <GoldBorderContainer
+        colors={["rgba(255, 215, 0, 0.4)", "rgba(255, 215, 0, 1)"]}>
+        <FlexCenterContainer>
+          <StyledImage source={MainImageAsset} />
+          <StyledButton onPress={() => console.log("press")}>
+            <ButtonText>Start a new game</ButtonText>
+          </StyledButton>
+        </FlexCenterContainer>
+      </GoldBorderContainer>
     </FullPageView>
   );
 };
 
-const StyledImage = styled.Image`
-  align-self: center;
-  height: 75%;
-  width: 70%;
+const FlexCenterContainer = styled.View`
+  display: flex;
+  flex: 1;
 `;
 
-// const StyledLinarGradiant = styled(LinearGradient)`
-//   padding: 15px;
-//   align-items: center;
-//   border-radius: 5px;
-// `;
+const ButtonText = styled(BaseText)`
+  color: ${({ theme }) => theme.colors.white};
+  font-size: ${({ theme }) => theme.fontSizes.h2}px;
+  margin: auto;
+`;
+const StyledButton = styled.TouchableOpacity`
+  align-self: center;
+  position: absolute;
+  top: 50%;
+  border: 3px solid rgba(255, 215, 0, 1);
+  border-radius: 40px;
+  height: 40px;
+  width: 200px;
+  background: ${({ theme }) => theme.colors.darkBlue};
+`;
+
+const StyledImage = styled.Image`
+  align-self: center;
+  border-radius: 200px;
+  height: 400px;
+  width: ${deviceWidth * 0.85}px;
+`;
+
+const GoldBorderContainer = styled(LinearGradient)`
+  border-radius: 175px;
+  height: 410px;
+  padding: 5px;
+  overflow: hidden;
+  margin: auto;
+`;
