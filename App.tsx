@@ -1,37 +1,30 @@
-import type { PropsWithChildren } from 'react';
+import type {PropsWithChildren} from 'react';
 import React from 'react';
 import {
+  Appearance,
   SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
-  Text,
-  useColorScheme,
-  Appearance,
   View,
 } from 'react-native';
 
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {
-  Colors,
-  Header
-} from 'react-native/Libraries/NewAppScreen';
-import { SectionDescription, StyledText } from './src/Pages/Components/shardStyles';
+  SectionDescription,
+  StyledText,
+} from './src/Pages/Components/shardStyles';
 
 type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
-function Section({ children, title }: SectionProps): JSX.Element {
+function Section({children, title}: SectionProps): JSX.Element {
   return (
     <View style={styles.sectionContainer}>
-      <StyledText>
-        {title}
-      </StyledText>
-      
-      <SectionDescription>
-        {children}
-      </SectionDescription>
-      
+      <StyledText>{title}</StyledText>
+
+      <SectionDescription>{children}</SectionDescription>
     </View>
   );
 }
@@ -41,21 +34,15 @@ function App(): JSX.Element {
 
   return (
     <SafeAreaView style={Colors.lighter}>
-      <StatusBar
-        barStyle={'dark-content'}
-        backgroundColor={Colors.lighter}
-      />
+      <StatusBar barStyle={'dark-content'} backgroundColor={Colors.lighter} />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={Colors.lighter}>
-
         <View
           style={{
             backgroundColor: Colors.white,
           }}>
-          <Section title='splendor'>
-            let the game begin
-          </Section>
+          <Section title="splendor">let the game begin</Section>
         </View>
       </ScrollView>
     </SafeAreaView>
