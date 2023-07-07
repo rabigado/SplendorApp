@@ -1,4 +1,5 @@
 // and extend it
+import 'styled-components';
 import {SkeletonCard} from 'styled-components';
 
 export interface IColors {
@@ -53,7 +54,7 @@ export interface IColors {
   loader: string;
 }
 
-declare module 'styled-components' {
+declare module 'styled-components/native' {
   export interface TextField {
     backgroundColors: {
       normal: string;

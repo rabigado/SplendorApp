@@ -1,6 +1,6 @@
-import {DefaultTheme, Modal, TextField} from 'styled-components';
 import {calcFontSize} from '../utils/dimensionHelper';
 import {IColors} from './styled';
+import {Modal, TextField, DefaultTheme} from 'styled-components/native';
 
 export const colors: IColors = {
   white: 'white',
@@ -114,8 +114,7 @@ export const textField: TextField = {
 
 export const modal: Modal = {
   container: {
-    flexEnd: `
-    flex: 1;
+    flexEnd: `flex: 1;
     justify-content: flex-end;`,
     padding: '24px 24px 30%',
     backgroundColor: colors.background,
