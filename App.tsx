@@ -10,10 +10,9 @@ import {
 } from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {
-  SectionDescription,
-  StyledText,
-} from './src/Pages/Components/shardStyles';
+import {ThemeProvider} from 'styled-components';
+import {SectionDescription, StyledText} from './src/shardStyles';
+import theme from './src/theme/theme';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -33,19 +32,21 @@ function App(): JSX.Element {
   Appearance.setColorScheme('light');
 
   return (
-    <SafeAreaView style={Colors.lighter}>
-      <StatusBar barStyle={'dark-content'} backgroundColor={Colors.lighter} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={Colors.lighter}>
-        <View
-          style={{
-            backgroundColor: Colors.white,
-          }}>
-          <Section title="splendor">let the game begin</Section>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <ThemeProvider theme={theme}>
+      <SafeAreaView style={Colors.lighter}>
+        <StatusBar barStyle={'dark-content'} backgroundColor={Colors.lighter} />
+        <ScrollView
+          contentInsetAdjustmentBehavior="automatic"
+          style={Colors.lighter}>
+          <View
+            style={{
+              backgroundColor: Colors.white,
+            }}>
+            <Section title="splendor">let the game begin</Section>
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </ThemeProvider>
   );
 }
 

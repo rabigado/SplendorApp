@@ -4,7 +4,7 @@ import {IColors} from './styled';
 
 export const colors: IColors = {
   white: 'white',
-
+  black: 'rgba(0,0,0,0.63)',
   accent: {
     red60: '#FF6666',
     purple: '#EEE5FE',
