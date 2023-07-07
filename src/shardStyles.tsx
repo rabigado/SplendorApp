@@ -10,3 +10,7 @@ export const SectionDescription = styled.Text`
   font-size: 18px;
   font-weight: 400;
 `;
+export const FullPageView = styled.View<{background?: string}>`
+  flex: 1;
+  ${({background}) => (background ? 'background:' + background : '')}
+`;
