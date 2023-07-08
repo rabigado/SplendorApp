@@ -50,7 +50,7 @@ export default ({ navigation }: SettingsProps) => {
     setPlayers(!isRemove ? [...players, {
       playerName: `Player-${index + 1}`,
       imageIndex: index
-    }] : players.length > 2
+    }] : players.length > MinPlayers
       ? players.filter((_, indexToRemove) => index !== indexToRemove)
       : players);
   };
