@@ -11,10 +11,12 @@ export const SectionDescription = styled.Text`
   font-weight: 400;
 `;
 export const FullPageView = styled.View<{background?: string}>`
+  max-width: 100%;
   flex: 1;
   ${({background}) => (background ? 'background:' + background : '')}
 `;
 
-export const BaseText = styled.Text`
+export const BaseText = styled.Text<{color?:string}>`
+  color: ${({theme})=>theme.colors.white};
   includeFontPadding: false;
 `;

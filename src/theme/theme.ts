@@ -56,6 +56,9 @@ export const colors: IColors = {
   secondaryBackground: '#F3F0EC',
   separator: '#d9dbe9',
   loader: '#D1715B',
+  gold: 'rgba(255, 215, 0, 0.4)',
+  lightGold: 'rgba(255, 195, 0, 1)',
+  mediumGold: 'rgba(255, 215, 0, 1)'
 };
 
 export const fontSizes = {

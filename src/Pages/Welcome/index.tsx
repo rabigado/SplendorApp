@@ -1,20 +1,22 @@
 import React from "react";
-import { Button, Text, View } from "react-native";
 import { BaseText, FullPageView } from "../../shardStyles";
 import styled from "styled-components/native";
 import LinearGradient from "react-native-linear-gradient";
 import { deviceWidth } from "../../utils/dimensionHelper";
-import { colors } from "../../theme/theme";
+import theme, { colors } from "../../theme/theme";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigation } from "../../Game";
 
 const MainImageAsset = require("../../assets/images/Splendor-Board-Game.jpg.png");
 export default () => {
+  const { navigate } = useNavigation<StackNavigation>();
   return (
     <FullPageView background={colors.darkBlue}>
       <GoldBorderContainer
-        colors={["rgba(255, 215, 0, 0.4)", "rgba(255, 215, 0, 1)"]}>
+        colors={[theme.colors.lightGold, theme.colors.mediumBlue]}>
         <FlexCenterContainer>
           <StyledImage source={MainImageAsset} />
-          <StyledButton onPress={() => console.log("press")}>
+          <StyledButton onPress={() => navigate('Settings')}>
             <ButtonText>Start a new game</ButtonText>
           </StyledButton>
         </FlexCenterContainer>

@@ -55,6 +55,9 @@ export interface IColors {
   secondaryBackground: string;
   separator: string;
   loader: string;
+  gold: string,
+  lightGold: string,
+  mediumGold: string
 }
 
 declare module 'styled-components/native' {

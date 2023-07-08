@@ -5,6 +5,7 @@
     "src/**/*.tsx",
     "./index.tsx",
     "./src/**/*.test.tsx",
+    "./declarations.d.ts",
     "./src/theme/styled.d.ts"
   ]
 }
