@@ -22,7 +22,6 @@ const MaxPlayers = 4;
 
 export default ({navigation}: SettingsProps) => {
   const {game, setGame} = useContext(GameContext) || {};
-  console.log(game)
   const [players, setPlayers] = useState<IPlayer[]>(
     new Array(MinPlayers).fill(0).map((_, index) => {
       return {
