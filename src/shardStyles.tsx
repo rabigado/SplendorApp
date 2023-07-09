@@ -16,7 +16,8 @@ export const FullPageView = styled.View<{background?: string}>`
   ${({background}) => (background ? 'background:' + background : '')}
 `;
 
-export const BaseText = styled.Text<{color?:string}>`
-  color: ${({theme})=>theme.colors.white};
+export const BaseText = styled.Text<{color?: string}>`
+  color: ${({theme}) => theme.colors.white};
+  // prettier-ignore
   includeFontPadding: false;
 `;

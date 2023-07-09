@@ -1,38 +1,41 @@
-import { BaseText, FullPageView } from "../../shardStyles";
-import { colors } from "../../theme/theme";
-import React, { useContext, useState } from "react";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { GameContext, RootStackParamList } from "../../Game";
-import StartGameButton from "../../Components/3DButton/index";
-import { GemsIcons, ISettings, playersImages } from "../../Entities/Settings";
-import styled from "styled-components/native";
-import { IPlayer } from "../../Entities/Player";
-import RefreshImageIcon from "../../assets/images/icons/activity.svg";
-import AddPlayerIcon from "../../assets/images/icons/addPlayerIcon.svg";
-import RemovePlayer from "../../assets/images/icons/removePlayer.svg";
-import { View } from "react-native";
+import {BaseText, FullPageView} from '../../shardStyles';
+import {colors} from '../../theme/theme';
+import React, {useContext, useState} from 'react';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {GameContext, RootStackParamList} from '../../Game';
+import StartGameButton from '../../Components/3DButton/index';
+import {ISettings, playersImages} from '../../Entities/Settings';
+import {GemsIcons} from '../../Entities/Gem';
+import styled from 'styled-components/native';
+import {IPlayer} from '../../Entities/Player';
+import RefreshImageIcon from '../../assets/images/icons/activity.svg';
+import AddPlayerIcon from '../../assets/images/icons/addPlayerIcon.svg';
+import RemovePlayer from '../../assets/images/icons/removePlayer.svg';
+import {View} from 'react-native';
 
-
-export type SettingsProps = NativeStackScreenProps<RootStackParamList, "Settings">;
+export type SettingsProps = NativeStackScreenProps<
+  RootStackParamList,
+  'Settings'
+>;
 const MinPlayers = 2;
 const MaxPlayers = 4;
 
-export default ({ navigation }: SettingsProps) => {
-  const { game, setGame } = useContext(GameContext) || {};
-  const [players, setPlayers] = useState<IPlayer[]>(new Array(MinPlayers)
-    .fill(0)
-    .map((_, index) => {
+export default ({navigation}: SettingsProps) => {
+  const {game, setGame} = useContext(GameContext) || {};
+  const [players, setPlayers] = useState<IPlayer[]>(
+    new Array(MinPlayers).fill(0).map((_, index) => {
       return {
         playerName: `Player-${index + 1}`,
-        imageIndex: index
+        imageIndex: index,
       };
-    }));
+    }),
+  );
   const settings: ISettings = {
     players,
     numberOfTokens: players.length < 2 ? 4 : players.length === 4 ? 7 : 5,
     winCondition: 15,
     nobles: players.length + 1,
-    goldTokens: 5
+    goldTokens: 5,
   };
 
   const handleChangeName = (index: number, event: string) => {
@@ -42,40 +45,61 @@ export default ({ navigation }: SettingsProps) => {
   };
   const handleImageChange = (index: number) => {
     const values = [...players];
-    values[index].imageIndex = (values[index].imageIndex + 1) % playersImages.length;
+    values[index].imageIndex =
+      (values[index].imageIndex + 1) % playersImages.length;
     setPlayers(values);
   };
 
   const handleChangePlayer = (index: number, isRemove: boolean = false) => {
-    setPlayers(!isRemove ? [...players, {
-      playerName: `Player-${index + 1}`,
-      imageIndex: index
-    }] : players.length > MinPlayers
-      ? players.filter((_, indexToRemove) => index !== indexToRemove)
-      : players);
+    setPlayers(
+      !isRemove
+        ? [
+            ...players,
+            {
+              playerName: `Player-${index + 1}`,
+              imageIndex: index,
+            },
+          ]
+        : players.length > MinPlayers
+        ? players.filter((_, indexToRemove) => index !== indexToRemove)
+        : players,
+    );
   };
 
   return (
     <FullPageView background={colors.lightBlue}>
       <PlayerContainer>
         {new Array(MaxPlayers).fill(0).map((_, index) => {
-          return (<PlayerCard key={index}>
-            {players[index] ?
-              <>
-                <ReplaceImage onPress={() => handleImageChange(index)}>
-                  <RefreshImageIcon />
-                </ReplaceImage>
-                <RemovePlayerTouch onPress={() => handleChangePlayer(index, true)}>
-                  <RemovePlayer height={24} width={24} />
-                </RemovePlayerTouch>
-                <PlayerImage resizeMethod={"resize"} source={playersImages[players[index].imageIndex]} />
-                <PlayerName autoCorrect={true} value={players[index].playerName ?? ""}
-                            onChangeText={(name: string) => {
-                              handleChangeName(index, name);
-                            }} />
-              </>
-              : <AddPlayerTouch onPress={() => handleChangePlayer(index)}><AddPlayerIcon /></AddPlayerTouch>}
-          </PlayerCard>);
+          return (
+            <PlayerCard key={index}>
+              {players[index] ? (
+                <>
+                  <ReplaceImage onPress={() => handleImageChange(index)}>
+                    <RefreshImageIcon />
+                  </ReplaceImage>
+                  <RemovePlayerTouch
+                    onPress={() => handleChangePlayer(index, true)}>
+                    <RemovePlayer height={24} width={24} />
+                  </RemovePlayerTouch>
+                  <PlayerImage
+                    resizeMethod={'resize'}
+                    source={playersImages[players[index].imageIndex]}
+                  />
+                  <PlayerName
+                    autoCorrect={true}
+                    value={players[index].playerName ?? ''}
+                    onChangeText={(name: string) => {
+                      handleChangeName(index, name);
+                    }}
+                  />
+                </>
+              ) : (
+                <AddPlayerTouch onPress={() => handleChangePlayer(index)}>
+                  <AddPlayerIcon />
+                </AddPlayerTouch>
+              )}
+            </PlayerCard>
+          );
         })}
       </PlayerContainer>
       <GameDetailsContainer>
@@ -86,11 +110,16 @@ export default ({ navigation }: SettingsProps) => {
           <DetailsText>Win at: {settings.winCondition}</DetailsText>
         </View>
         <View>
-          {GemsIcons.map((gem, index) => <GemImage key={index} source={gem} resizeMethod={"resize"} />)}
+          {GemsIcons.map((gem, index) => (
+            <GemImage key={index} source={gem} resizeMethod={'resize'} />
+          ))}
         </View>
       </GameDetailsContainer>
       <StartNewGameButton>
-        <StartGameButton title={"Venture forth"} onPress={() => navigation.navigate("Welcome")} />
+        <StartGameButton
+          title={'Venture forth'}
+          onPress={() => navigation.navigate('Welcome')}
+        />
       </StartNewGameButton>
     </FullPageView>
   );
@@ -103,10 +132,9 @@ const StartNewGameButton = styled.View`
 `;
 
 const DetailsText = styled(BaseText)`
-  font-size: ${({ theme }) => theme.fontSizes.h4}px;
+  font-size: ${({theme}) => theme.fontSizes.h4}px;
   font-weight: 600;
   margin: 10px;
-
 `;
 
 const GameDetailsContainer = styled.View`
@@ -137,17 +165,16 @@ const PlayerName = styled.TextInput`
   margin: 10px;
   height: 34px;
   border-radius: 8px;
-  border-color: ${(({ theme }) => theme.colors.lightGold)};
+  border-color: ${({theme}) => theme.colors.lightGold};
   border-width: 1px;
-  font-size: ${({ theme }) => theme.fontSizes.body1}px;
-  color: ${({ theme }) => theme.colors.white};
+  font-size: ${({theme}) => theme.fontSizes.body1}px;
+  color: ${({theme}) => theme.colors.white};
 `;
 
 const PlayerImage = styled.Image`
   max-width: 100%;
   max-height: 75%;
 `;
-
 
 const GemImage = styled.Image`
   width: 30px;
