@@ -1,0 +1,881 @@
+{
+  "nobles":[
+    {
+      "cost": {
+        "GREEN": "3",
+        "BLUE": "3",
+        "WHITE": "3"
+      }
+    },
+    {
+      "cost": {
+        "BLACK": "3",
+        "RED": "3",
+        "WHITE": "3"
+      }
+    },
+    {
+      "cost": {
+        "BLACK": "3",
+        "BLUE": "3",
+        "WHITE": "3"
+      }
+    },
+    {
+      "cost": {
+        "BLACK": "3",
+        "RED": "3",
+        "GREEN": "3"
+      }
+    },
+    {
+      "cost": {
+        "GREEN": "3",
+        "BLUE": "3",
+        "RED": "3"
+      }
+    },
+    {
+      "cost": {
+        "BLUE": "4",
+        "GREEN": "4"
+      }
+    },
+    {
+      "cost": {
+        "BLACK": "4",
+        "WHITE": "4"
+      }
+    },
+    {
+      "cost": {
+        "BLACK": "4",
+        "RED": "4"
+      }
+    },
+    {
+      "cost": {
+        "BLUE": "4",
+        "WHITE": "4"
+      }
+    },
+    {
+      "cost": {
+        "RED": "4",
+        "GREEN": "4"
+      }
+    }
+  ],
+  "cards": [
+    {
+      "level": 1,
+      "color": "black",
+      "cost": "1w+1u+1g+1r",
+      "illustration": "mine (black)",
+      "white": 1,
+      "blue": 1,
+      "green": 1,
+      "red": 1
+    },
+    {
+      "level": 1,
+      "color": "black",
+      "cost": "1w+2u+1g+1r",
+      "illustration": "mine (black)",
+      "white": 1,
+      "blue": 2,
+      "green": 1,
+      "red": 1
+    },
+    {
+      "level": 1,
+      "color": "black",
+      "cost": "2w+2u+1r",
+      "illustration": "mine (black)",
+      "white": 2,
+      "blue": 2,
+      "red": 1
+    },
+    {
+      "level": 1,
+      "color": "black",
+      "cost": "1g+3r+1k",
+      "illustration": "mine (black)",
+      "green": 1,
+      "red": 3,
+      "black": 1
+    },
+    {
+      "level": 1,
+      "color": "black",
+      "cost": "2g+1r",
+      "illustration": "mine (black)",
+      "green": 2,
+      "red": 1
+    },
+    {
+      "level": 1,
+      "color": "black",
+      "cost": "2w+2g",
+      "illustration": "mine (black)",
+      "white": 2,
+      "green": 2
+    },
+    {
+      "level": 1,
+      "color": "black",
+      "cost": "3g",
+      "illustration": "mine (black)",
+      "green": 3
+    },
+    {
+      "level": 1,
+      "color": "black",
+      "pv": 1,
+      "cost": "4u",
+      "illustration": "mine (black)",
+      "blue": 4
+    },
+    {
+      "level": 1,
+      "color": "blue",
+      "cost": "1w+1g+1r+1k",
+      "illustration": "mine (blue)",
+      "white": 1,
+      "green": 1,
+      "red": 1,
+      "black": 1
+    },
+    {
+      "level": 1,
+      "color": "blue",
+      "cost": "1w+1g+2r+1k",
+      "illustration": "mine (blue)",
+      "white": 1,
+      "green": 1,
+      "red": 2,
+      "black": 1
+    },
+    {
+      "level": 1,
+      "color": "blue",
+      "cost": "1w+2g+2r",
+      "illustration": "mine (blue)",
+      "white": 1,
+      "green": 2,
+      "red": 2
+    },
+    {
+      "level": 1,
+      "color": "blue",
+      "cost": "1u+3g+1r",
+      "illustration": "mine (blue)",
+      "blue": 1,
+      "green": 3,
+      "red": 1
+    },
+    {
+      "level": 1,
+      "color": "blue",
+      "cost": "1w+2k",
+      "illustration": "mine (blue)",
+      "white": 1,
+      "black": 2
+    },
+    {
+      "level": 1,
+      "color": "blue",
+      "cost": "2g+2k",
+      "illustration": "mine (blue)",
+      "green": 2,
+      "black": 2
+    },
+    {
+      "level": 1,
+      "color": "blue",
+      "cost": "3k",
+      "illustration": "mine (blue)",
+      "black": 3
+    },
+    {
+      "level": 1,
+      "color": "blue",
+      "pv": 1,
+      "cost": "4r",
+      "illustration": "mine (blue)",
+      "red": 4
+    },
+    {
+      "level": 1,
+      "color": "white",
+      "cost": "1u+1g+1r+1k",
+      "illustration": "mine (white)",
+      "blue": 1,
+      "green": 1,
+      "red": 1,
+      "black": 1
+    },
+    {
+      "level": 1,
+      "color": "white",
+      "cost": "1u+2g+1r+1k",
+      "illustration": "mine (white)",
+      "blue": 1,
+      "green": 2,
+      "red": 1,
+      "black": 1
+    },
+    {
+      "level": 1,
+      "color": "white",
+      "cost": "2u+2g+1k",
+      "illustration": "mine (white)",
+      "blue": 2,
+      "green": 2,
+      "black": 1
+    },
+    {
+      "level": 1,
+      "color": "white",
+      "cost": "3w+1u+1k",
+      "illustration": "mine (white)",
+      "white": 3,
+      "blue": 1,
+      "black": 1
+    },
+    {
+      "level": 1,
+      "color": "white",
+      "cost": "2r+1k",
+      "illustration": "mine (white)",
+      "red": 2,
+      "black": 1
+    },
+    {
+      "level": 1,
+      "color": "white",
+      "cost": "2u+2k",
+      "illustration": "mine (white)",
+      "blue": 2,
+      "black": 2
+    },
+    {
+      "level": 1,
+      "color": "white",
+      "cost": "3u",
+      "illustration": "mine (white)",
+      "blue": 3
+    },
+    {
+      "level": 1,
+      "color": "white",
+      "pv": 1,
+      "cost": "4g",
+      "illustration": "mine (white)",
+      "green": 4
+    },
+    {
+      "level": 1,
+      "color": "green",
+      "cost": "1w+1u+1r+1k",
+      "illustration": "mine (green)",
+      "white": 1,
+      "blue": 1,
+      "red": 1,
+      "black": 1
+    },
+    {
+      "level": 1,
+      "color": "green",
+      "cost": "1w+1u+1r+2k",
+      "illustration": "mine (green)",
+      "white": 1,
+      "blue": 1,
+      "red": 1,
+      "black": 2
+    },
+    {
+      "level": 1,
+      "color": "green",
+      "cost": "1u+2r+2k",
+      "illustration": "mine (green)",
+      "blue": 1,
+      "red": 2,
+      "black": 2
+    },
+    {
+      "level": 1,
+      "color": "green",
+      "cost": "1w+3u+1g",
+      "illustration": "mine (green)",
+      "white": 1,
+      "blue": 3,
+      "green": 1
+    },
+    {
+      "level": 1,
+      "color": "green",
+      "cost": "2w+1u",
+      "illustration": "mine (green)",
+      "white": 2,
+      "blue": 1
+    },
+    {
+      "level": 1,
+      "color": "green",
+      "cost": "2u+2r",
+      "illustration": "mine (green)",
+      "blue": 2,
+      "red": 2
+    },
+    {
+      "level": 1,
+      "color": "green",
+      "cost": "3r",
+      "illustration": "mine (green)",
+      "red": 3
+    },
+    {
+      "level": 1,
+      "color": "green",
+      "pv": 1,
+      "cost": "4k",
+      "illustration": "mine (green)",
+      "black": 4
+    },
+    {
+      "level": 1,
+      "color": "red",
+      "cost": "1w+1u+1g+1k",
+      "illustration": "mine (red)",
+      "white": 1,
+      "blue": 1,
+      "green": 1,
+      "black": 1
+    },
+    {
+      "level": 1,
+      "color": "red",
+      "cost": "2w+1u+1g+1k",
+      "illustration": "mine (red)",
+      "white": 2,
+      "blue": 1,
+      "green": 1,
+      "black": 1
+    },
+    {
+      "level": 1,
+      "color": "red",
+      "cost": "2w+1g+2k",
+      "illustration": "mine (red)",
+      "white": 2,
+      "green": 1,
+      "black": 2
+    },
+    {
+      "level": 1,
+      "color": "red",
+      "cost": "1w+1r+3k",
+      "illustration": "mine (red)",
+      "white": 1,
+      "red": 1,
+      "black": 3
+    },
+    {
+      "level": 1,
+      "color": "red",
+      "cost": "2u+1g",
+      "illustration": "mine (red)",
+      "blue": 2,
+      "green": 1
+    },
+    {
+      "level": 1,
+      "color": "red",
+      "cost": "2w+2r",
+      "illustration": "mine (red)",
+      "white": 2,
+      "red": 2
+    },
+    {
+      "level": 1,
+      "color": "red",
+      "cost": "3w",
+      "illustration": "mine (red)",
+      "white": 3
+    },
+    {
+      "level": 1,
+      "color": "red",
+      "pv": 1,
+      "cost": "4w",
+      "illustration": "mine (red)",
+      "white": 4
+    },
+    {
+      "level": 2,
+      "color": "black",
+      "pv": 1,
+      "cost": "3w+2u+2g",
+      "illustration": "camels",
+      "white": 3,
+      "blue": 2,
+      "green": 2
+    },
+    {
+      "level": 2,
+      "color": "black",
+      "pv": 1,
+      "cost": "3w+3g+2k",
+      "illustration": "camels",
+      "white": 3,
+      "green": 3,
+      "black": 2
+    },
+    {
+      "level": 2,
+      "color": "black",
+      "pv": 2,
+      "cost": "1u+4g+2r",
+      "illustration": "camels",
+      "blue": 1,
+      "green": 4,
+      "red": 2
+    },
+    {
+      "level": 2,
+      "color": "black",
+      "pv": 2,
+      "cost": "5g+3r",
+      "illustration": "lapidary (black)",
+      "green": 5,
+      "red": 3
+    },
+    {
+      "level": 2,
+      "color": "black",
+      "pv": 2,
+      "cost": "5w",
+      "illustration": "lapidary (black)",
+      "white": 5
+    },
+    {
+      "level": 2,
+      "color": "black",
+      "pv": 3,
+      "cost": "6k",
+      "illustration": "lapidary (black)",
+      "black": 6
+    },
+    {
+      "level": 2,
+      "color": "blue",
+      "pv": 1,
+      "cost": "2u+2g+3r",
+      "illustration": "elephants",
+      "blue": 2,
+      "green": 2,
+      "red": 3
+    },
+    {
+      "level": 2,
+      "color": "blue",
+      "pv": 1,
+      "cost": "2u+3g+3k",
+      "illustration": "elephants",
+      "blue": 2,
+      "green": 3,
+      "black": 3
+    },
+    {
+      "level": 2,
+      "color": "blue",
+      "pv": 2,
+      "cost": "5w+3u",
+      "illustration": "elephants",
+      "white": 5,
+      "blue": 3
+    },
+    {
+      "level": 2,
+      "color": "blue",
+      "pv": 2,
+      "cost": "2w+1r+4k",
+      "illustration": "lapidary (blue)",
+      "white": 2,
+      "red": 1,
+      "black": 4
+    },
+    {
+      "level": 2,
+      "color": "blue",
+      "pv": 2,
+      "cost": "5u",
+      "illustration": "lapidary (blue)",
+      "blue": 5
+    },
+    {
+      "level": 2,
+      "color": "blue",
+      "pv": 3,
+      "cost": "6u",
+      "illustration": "lapidary (blue)",
+      "blue": 6
+    },
+    {
+      "level": 2,
+      "color": "white",
+      "pv": 1,
+      "cost": "3g+2r+2k",
+      "illustration": "people in snow",
+      "green": 3,
+      "red": 2,
+      "black": 2
+    },
+    {
+      "level": 2,
+      "color": "white",
+      "pv": 1,
+      "cost": "2w+3u+3r",
+      "illustration": "people in snow",
+      "white": 2,
+      "blue": 3,
+      "red": 3
+    },
+    {
+      "level": 2,
+      "color": "white",
+      "pv": 2,
+      "cost": "1g+4r+2k",
+      "illustration": "people in snow",
+      "green": 1,
+      "red": 4,
+      "black": 2
+    },
+    {
+      "level": 2,
+      "color": "white",
+      "pv": 2,
+      "cost": "5r+3k",
+      "illustration": "lapidary (white)",
+      "red": 5,
+      "black": 3
+    },
+    {
+      "level": 2,
+      "color": "white",
+      "pv": 2,
+      "cost": "5r",
+      "illustration": "lapidary (white)",
+      "red": 5
+    },
+    {
+      "level": 2,
+      "color": "white",
+      "pv": 3,
+      "cost": "6w",
+      "illustration": "lapidary (white)",
+      "white": 6
+    },
+    {
+      "level": 2,
+      "color": "green",
+      "pv": 1,
+      "cost": "3w+2g+3r",
+      "illustration": "guy (green)",
+      "white": 3,
+      "green": 2,
+      "red": 3
+    },
+    {
+      "level": 2,
+      "color": "green",
+      "pv": 1,
+      "cost": "2w+3u+2k",
+      "illustration": "guy (green)",
+      "white": 2,
+      "blue": 3,
+      "black": 2
+    },
+    {
+      "level": 2,
+      "color": "green",
+      "pv": 2,
+      "cost": "4w+2u+1k",
+      "illustration": "guy (green)",
+      "white": 4,
+      "blue": 2,
+      "black": 1
+    },
+    {
+      "level": 2,
+      "color": "green",
+      "pv": 2,
+      "cost": "5u+3g",
+      "illustration": "carrack",
+      "blue": 5,
+      "green": 3
+    },
+    {
+      "level": 2,
+      "color": "green",
+      "pv": 2,
+      "cost": "5g",
+      "illustration": "carrack",
+      "green": 5
+    },
+    {
+      "level": 2,
+      "color": "green",
+      "pv": 3,
+      "cost": "6g",
+      "illustration": "carrack",
+      "green": 6
+    },
+    {
+      "level": 2,
+      "color": "red",
+      "pv": 1,
+      "cost": "2w+2r+3k",
+      "illustration": "felucca",
+      "white": 2,
+      "red": 2,
+      "black": 3
+    },
+    {
+      "level": 2,
+      "color": "red",
+      "pv": 1,
+      "cost": "3u+2r+3k",
+      "illustration": "felucca",
+      "blue": 3,
+      "red": 2,
+      "black": 3
+    },
+    {
+      "level": 2,
+      "color": "red",
+      "pv": 2,
+      "cost": "1w+4u+2g",
+      "illustration": "felucca",
+      "white": 1,
+      "blue": 4,
+      "green": 2
+    },
+    {
+      "level": 2,
+      "color": "red",
+      "pv": 2,
+      "cost": "3w+5k",
+      "illustration": "lapidary (red)",
+      "white": 3,
+      "black": 5
+    },
+    {
+      "level": 2,
+      "color": "red",
+      "pv": 2,
+      "cost": "5k",
+      "illustration": "lapidary (red)",
+      "black": 5
+    },
+    {
+      "level": 2,
+      "color": "red",
+      "pv": 3,
+      "cost": "6r",
+      "illustration": "lapidary (red)",
+      "red": 6
+    },
+    {
+      "level": 3,
+      "color": "black",
+      "pv": 3,
+      "cost": "3w+3u+5g+3r",
+      "illustration": "street1",
+      "white": 3,
+      "blue": 3,
+      "green": 5,
+      "red": 3
+    },
+    {
+      "level": 3,
+      "color": "black",
+      "pv": 4,
+      "cost": "7r",
+      "illustration": "street2",
+      "red": 7
+    },
+    {
+      "level": 3,
+      "color": "black",
+      "pv": 4,
+      "cost": "3g+6r+3k",
+      "illustration": "street2",
+      "green": 3,
+      "red": 6,
+      "black": 3
+    },
+    {
+      "level": 3,
+      "color": "black",
+      "pv": 5,
+      "cost": "7r+3k",
+      "illustration": "street1",
+      "red": 7,
+      "black": 3
+    },
+    {
+      "level": 3,
+      "color": "blue",
+      "pv": 3,
+      "cost": "3w+3g+3r+5k",
+      "illustration": "Venice",
+      "white": 3,
+      "green": 3,
+      "red": 3,
+      "black": 5
+    },
+    {
+      "level": 3,
+      "color": "blue",
+      "pv": 4,
+      "cost": "7w",
+      "illustration": "Venice",
+      "white": 7
+    },
+    {
+      "level": 3,
+      "color": "blue",
+      "pv": 4,
+      "cost": "6w+3u+3k",
+      "illustration": "diamant shop",
+      "white": 6,
+      "blue": 3,
+      "black": 3
+    },
+    {
+      "level": 3,
+      "color": "blue",
+      "pv": 5,
+      "cost": "7w+3u",
+      "illustration": "diamant shop",
+      "white": 7,
+      "blue": 3
+    },
+    {
+      "level": 3,
+      "color": "white",
+      "pv": 3,
+      "cost": "3u+3g+5r+3k",
+      "illustration": "building (white)",
+      "blue": 3,
+      "green": 3,
+      "red": 5,
+      "black": 3
+    },
+    {
+      "level": 3,
+      "color": "white",
+      "pv": 4,
+      "cost": "7k",
+      "illustration": "\"Gioielleria\"",
+      "black": 7
+    },
+    {
+      "level": 3,
+      "color": "white",
+      "pv": 4,
+      "cost": "3w+3r+6k",
+      "illustration": "\"Gioielleria\"",
+      "white": 3,
+      "red": 3,
+      "black": 6
+    },
+    {
+      "level": 3,
+      "color": "white",
+      "pv": 5,
+      "cost": "3w+7k",
+      "illustration": "building (white)",
+      "white": 3,
+      "black": 7
+    },
+    {
+      "level": 3,
+      "color": "green",
+      "pv": 3,
+      "cost": "5w+3u+3r+3k",
+      "illustration": "timbered house",
+      "white": 5,
+      "blue": 3,
+      "red": 3,
+      "black": 3
+    },
+    {
+      "level": 3,
+      "color": "green",
+      "pv": 4,
+      "cost": "7u",
+      "illustration": "bridge",
+      "blue": 7
+    },
+    {
+      "level": 3,
+      "color": "green",
+      "pv": 4,
+      "cost": "3w+6u+3g",
+      "illustration": "bridge",
+      "white": 3,
+      "blue": 6,
+      "green": 3
+    },
+    {
+      "level": 3,
+      "color": "green",
+      "pv": 5,
+      "cost": "7u+3g",
+      "illustration": "timbered house",
+      "blue": 7,
+      "green": 3
+    },
+    {
+      "level": 3,
+      "color": "red",
+      "pv": 3,
+      "cost": "3w+5u+3g+3k",
+      "illustration": "equestrian statue",
+      "white": 3,
+      "blue": 5,
+      "green": 3,
+      "black": 3
+    },
+    {
+      "level": 3,
+      "color": "red",
+      "pv": 4,
+      "cost": "7g",
+      "illustration": "equestrian statue",
+      "green": 7
+    },
+    {
+      "level": 3,
+      "color": "red",
+      "pv": 4,
+      "cost": "3u+6g+3r",
+      "illustration": "building (red)",
+      "blue": 3,
+      "green": 6,
+      "red": 3
+    },
+    {
+      "level": 3,
+      "color": "red",
+      "pv": 5,
+      "cost": "7g+3r",
+      "illustration": "building (red)",
+      "green": 7,
+      "red": 3
+    }
+  ]
+}

@@ -1,17 +1,19 @@
-import {BaseText, FullPageView} from '../../shardStyles';
-import {colors} from '../../theme/theme';
-import React, {useContext, useState} from 'react';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {GameContext, RootStackParamList} from '../../Game';
+import { BaseText, FullPageView } from '../../shardStyles';
+import { colors } from '../../theme/theme';
+import React, { useContext, useState } from 'react';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../Game';
 import StartGameButton from '../../Components/3DButton/index';
-import {ISettings, playersImages} from '../../Entities/Settings';
-import {GemsIcons} from '../../Entities/Gem';
+import { ISettings, playersImages } from '../../Entities/Settings';
+import { GemsIcons } from '../../Entities/Gem';
 import styled from 'styled-components/native';
-import {IPlayer} from '../../Entities/Player';
+import { IPlayer } from '../../Entities/Player';
 import RefreshImageIcon from '../../assets/images/icons/activity.svg';
 import AddPlayerIcon from '../../assets/images/icons/addPlayerIcon.svg';
 import RemovePlayer from '../../assets/images/icons/removePlayer.svg';
-import {View} from 'react-native';
+import { View } from 'react-native';
+import { ActionTypes  } from "../../context/reducer";
+import { GameContext } from '../../context/context';
 
 export type SettingsProps = NativeStackScreenProps<
   RootStackParamList,
@@ -21,7 +23,7 @@ const MinPlayers = 2;
 const MaxPlayers = 4;
 
 export default ({navigation}: SettingsProps) => {
-  const {game, setGame} = useContext(GameContext) || {};
+  const { dispatch, game } = useContext(GameContext);
   const [players, setPlayers] = useState<IPlayer[]>(
     new Array(MinPlayers).fill(0).map((_, index) => {
       return {
@@ -30,7 +32,7 @@ export default ({navigation}: SettingsProps) => {
       };
     }),
   );
-  const settings: ISettings = {
+  const settings: ISettings = game?.settings ?? {
     players,
     numberOfTokens: players.length < 2 ? 4 : players.length === 4 ? 7 : 5,
     winCondition: 15,
@@ -64,6 +66,13 @@ export default ({navigation}: SettingsProps) => {
         ? players.filter((_, indexToRemove) => index !== indexToRemove)
         : players,
     );
+  };
+
+  const handleStartGame = () => {
+    dispatch?.({
+      type: ActionTypes.SETTINGS,
+      gameState: {settings, players},
+    });
   };
 
   return (
@@ -110,15 +119,18 @@ export default ({navigation}: SettingsProps) => {
           <DetailsText>Win at: {settings.winCondition}</DetailsText>
         </View>
         <View>
-          {GemsIcons.map((gem, index) => (
-            <GemImage key={index} source={gem} resizeMethod={'resize'} />
-          ))}
+          {GemsIcons.map((gem, index) => {
+            return (<GemImage key={index} source={gem} resizeMethod={'resize'}  />);
+          })}
         </View>
       </GameDetailsContainer>
       <StartNewGameButton>
         <StartGameButton
           title={'Venture forth'}
-          onPress={() => navigation.navigate('Welcome')}
+          onPress={() => {
+            handleStartGame();
+            navigation.navigate('Welcome');
+          }}
         />
       </StartNewGameButton>
     </FullPageView>
