@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { GameContext } from '../../context/context';
 import styled from 'styled-components/native';
 import { BaseText, FlexColumn, FlexRow } from '../../shardStyles';
@@ -7,7 +7,8 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../Game';
 import Avatar from '../../Components/Avatar';
 import { playersImages } from '../../Entities/Settings';
-import { CardsBack } from '../../Entities/Deck';
+
+import Card from '../../Components/Card/Card';
 
 export type GameProps = NativeStackScreenProps<
   RootStackParamList,
@@ -15,6 +16,10 @@ export type GameProps = NativeStackScreenProps<
 >;
 export default ({navigation}:GameProps)=>{
   const {game} = useContext(GameContext);
+  const [temp,setTemp] = useState(false);
+  setTimeout(()=>{
+    setTemp(true);
+  },3000)
   return <GameScreenRoot>
     <PlayerSection>
       {game.players.map(player => <View key={player.playerName}>
@@ -23,23 +28,53 @@ export default ({navigation}:GameProps)=>{
       </View>)}
     </PlayerSection>
     <DeckSection >
-      {game.dealer?.cards.reverse().map((deck,index)=>{
-        return <DeckView resizeMethod={'resize'} source={CardsBack[deck[0].cardBackIndex]} key={index} />;
+      {game.dealer?.cards.reverse().map((deck,i)=>{
+        return <DeckContainer key={i}>
+          {deck.slice(0,1).map((card,index) => {
+            return <Card style={{zIndex: index, left: 0.25 * index}}
+                         faceUp={false}
+                         key={`card-${index}`} {...card} />;
+            // return <CardBackView
+            //   key={`card${index}`}
+            //   style={{zIndex: index, left: 0.25 * index}}
+            //   resizeMethod={'resize'}
+            //   source={CardsBack[card.cardBackIndex]}
+            //    />;
+          })}
+        </DeckContainer>;
       })}
     </DeckSection>
-    <BoardSection >
+    <BoardSection>
+      {game.dealer?.cards.reverse().map((deck,i)=>{
+        return <DeckContainer key={i}>
+          {deck.slice(0,1).map((card,index) => {
+            return <Card style={{zIndex: index, left: 0.25 * index}}
+                         faceUp={temp}
+                         key={`card-${index}`} {...card} />;
+            // return <CardBackView
+            //   key={`card${index}`}
+            //   style={{zIndex: index, left: 0.25 * index}}
+            //   resizeMethod={'resize'}
+            //   source={CardsBack[card.cardBackIndex]}
+            //    />;
+          })}
+        </DeckContainer>;
+      })}
+    </BoardSection>
+    <BankSection >
       <TouchableOpacity onPress={()=>navigation.goBack()}>
         <BaseText>go back</BaseText>
       </TouchableOpacity>
-    </BoardSection>
-    <BankSection />
+    </BankSection>
     <NoblesSection />
   </GameScreenRoot>;
 };
-const DeckView = styled.Image`
-  max-width: 80%;
+
+
+const DeckContainer = styled(FlexColumn)`
   flex: 1;
 `;
+
 const GameScreenRoot = styled(FlexRow)`
   flex: 1;
   background-color: ${({theme})=>theme.colors.lightBlue};

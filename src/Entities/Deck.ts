@@ -1,6 +1,8 @@
 import {IGem, mapCharToGemType} from './Gem';
 import jsonCards from '../assets/cards.json';
-const CardsImages = [
+
+
+export const CardsImages = [
   require('../assets/images/artisan1.jpg'),
   require('../assets/images/artisan2.jpg'),
   require('../assets/images/artisan3.jpg'),
@@ -87,7 +89,7 @@ export class Dealer implements IDealer {
           ({
             cardBackIndex: level - 1,
             cardLevel: 1,
-            imageIndex: Math.round(Math.random() * CardsImages.length),
+            imageIndex: Math.floor(Math.random() * (CardsImages.length - 1)),
             cost: card.cost.split('+').map(
               char =>
                 ({
