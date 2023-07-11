@@ -1,9 +1,9 @@
-import { Animated, TouchableWithoutFeedback } from "react-native";
-import React, { useRef } from "react";
-import theme from "../../theme/theme";
-import LinearGradient from "react-native-linear-gradient";
-import styled from "styled-components/native";
-import { GestureResponderEvent } from "react-native/Libraries/Types/CoreEventTypes";
+import { Animated, TouchableWithoutFeedback } from 'react-native';
+import React, { useRef } from 'react';
+import theme from '../../theme/theme';
+import LinearGradient from 'react-native-linear-gradient';
+import styled from 'styled-components/native';
+import { GestureResponderEvent } from 'react-native/Libraries/Types/CoreEventTypes';
 
 export default ({ title, onPress }: { title: string, onPress: ((event: GestureResponderEvent) => void) }) => {
   const animatedHeight = useRef(new Animated.Value(0)).current;
@@ -12,7 +12,7 @@ export default ({ title, onPress }: { title: string, onPress: ((event: GestureRe
       Animated.timing(animatedHeight, {
         toValue: 1,
         duration: 100,
-        useNativeDriver:false
+        useNativeDriver:false,
       }).start();
     } catch (e) {}
   };
@@ -20,7 +20,7 @@ export default ({ title, onPress }: { title: string, onPress: ((event: GestureRe
     Animated.timing(animatedHeight, {
       toValue: 0,
       duration: 50,
-      useNativeDriver:false
+      useNativeDriver:false,
     }).start();
   };
   const heightStyle = {
@@ -51,8 +51,8 @@ export default ({ title, onPress }: { title: string, onPress: ((event: GestureRe
         </Outer>
       </ButtonView>
     </TouchableWithoutFeedback>
-  </Container>
-}
+  </Container>;
+};
 
 const Container = styled.View`
   width: 200px;
@@ -69,12 +69,12 @@ const Outer = styled(LinearGradient)`
   border-radius: 14px;
 `;
 const FakeHeight = styled(Animated.View)`
-  background-color: ${({theme})=>theme.colors.lightBlue};
+  background-color: ${theme.colors.lightBlue};
   border-radius: 16px;
 `;
 const Inner = styled(Animated.View)`
   height: 100%;
-  background-color: ${({theme})=>theme.colors.darkBlue};
+  background-color: ${theme.colors.darkBlue};
   align-items: center;
   justify-content: center;
 `;
@@ -82,5 +82,5 @@ const Inner = styled(Animated.View)`
 const ButtonText = styled.Text`
   font-size: 20px;
   font-weight: 400;
-  color: ${({theme})=>theme.colors.white};
-`
+  color: ${theme.colors.white};
+`;

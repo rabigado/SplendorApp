@@ -1,13 +1,13 @@
-import React from "react";
-import { BaseText, FullPageView } from "../../shardStyles";
-import styled from "styled-components/native";
-import LinearGradient from "react-native-linear-gradient";
-import { deviceWidth } from "../../utils/dimensionHelper";
-import theme, { colors } from "../../theme/theme";
-import { useNavigation } from "@react-navigation/native";
-import { StackNavigation } from "../../Game";
+import React from 'react';
+import { BaseText, FullPageView } from '../../shardStyles';
+import styled from 'styled-components/native';
+import LinearGradient from 'react-native-linear-gradient';
+import { deviceWidth } from '../../utils/dimensionHelper';
+import theme, { colors } from '../../theme/theme';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigation } from '../../Game';
 
-const MainImageAsset = require("../../assets/images/Splendor-Board-Game.jpg.png");
+const MainImageAsset = require('../../assets/images/Splendor-Board-Game.jpg.png');
 export default () => {
   const { navigate } = useNavigation<StackNavigation>();
   return (
@@ -31,8 +31,8 @@ const FlexCenterContainer = styled.View`
 `;
 
 const ButtonText = styled(BaseText)`
-  color: ${({ theme }) => theme.colors.white};
-  font-size: ${({ theme }) => theme.fontSizes.h2}px;
+  color: ${theme.colors.white};
+  font-size: ${theme.fontSizes.h2}px;
   margin: auto;
 `;
 const StyledButton = styled.TouchableOpacity`
@@ -43,7 +43,7 @@ const StyledButton = styled.TouchableOpacity`
   border-radius: 40px;
   height: 40px;
   width: 200px;
-  background: ${({ theme }) => theme.colors.darkBlue};
+  background: ${theme.colors.darkBlue};
 `;
 
 const StyledImage = styled.Image`

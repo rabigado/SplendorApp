@@ -8,10 +8,10 @@ interface IGameContext {
 
 export const GameContext = createContext<IGameContext>({} as IGameContext);
 
-export const GameContextProvider: FC<PropsWithChildren> = ({children}) => {
+export const GameContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const [game, dispatch] = useReducer(gameReducer, gameInitialState);
   return (
-    <GameContext.Provider value={{game, dispatch}}>
+    <GameContext.Provider value={{ game, dispatch }}>
       {children}
     </GameContext.Provider>
   );

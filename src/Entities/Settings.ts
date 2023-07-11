@@ -13,7 +13,6 @@ export const playersImages = [
 ];
 
 export interface ISettings {
-  players: IPlayer[];
   winCondition: number;
   numberOfTokens: number;
   goldTokens: number;

@@ -18,6 +18,14 @@ export const FullPageView = styled.View<{background?: string}>`
 
 export const BaseText = styled.Text<{color?: string}>`
   color: ${({theme}) => theme.colors.white};
-  // prettier-ignore
   includeFontPadding: false;
+`;
+
+export const FlexColumn = styled.View`
+  display: flex;
+  flex-direction: column;
+`;
+export const FlexRow =  styled.View`
+  display: flex;
+  flex-direction: row;
 `;

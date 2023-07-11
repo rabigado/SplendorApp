@@ -1,5 +1,5 @@
 import { BaseText, FullPageView } from '../../shardStyles';
-import { colors } from '../../theme/theme';
+import theme, { colors } from '../../theme/theme';
 import React, { useContext, useState } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../Game';
@@ -12,7 +12,7 @@ import RefreshImageIcon from '../../assets/images/icons/activity.svg';
 import AddPlayerIcon from '../../assets/images/icons/addPlayerIcon.svg';
 import RemovePlayer from '../../assets/images/icons/removePlayer.svg';
 import { View } from 'react-native';
-import { ActionTypes  } from "../../context/reducer";
+import { ActionTypes  } from '../../context/reducer';
 import { GameContext } from '../../context/context';
 
 export type SettingsProps = NativeStackScreenProps<
@@ -33,13 +33,11 @@ export default ({navigation}: SettingsProps) => {
     }),
   );
   const settings: ISettings = game?.settings ?? {
-    players,
     numberOfTokens: players.length < 2 ? 4 : players.length === 4 ? 7 : 5,
     winCondition: 15,
     nobles: players.length + 1,
     goldTokens: 5,
   };
-
   const handleChangeName = (index: number, event: string) => {
     const values = [...players];
     values[index].playerName = event;
@@ -129,7 +127,7 @@ export default ({navigation}: SettingsProps) => {
           title={'Venture forth'}
           onPress={() => {
             handleStartGame();
-            navigation.navigate('Welcome');
+            navigation.navigate('Game');
           }}
         />
       </StartNewGameButton>
@@ -144,7 +142,7 @@ const StartNewGameButton = styled.View`
 `;
 
 const DetailsText = styled(BaseText)`
-  font-size: ${({theme}) => theme.fontSizes.h4}px;
+  font-size: ${theme.fontSizes.h4}px;
   font-weight: 600;
   margin: 10px;
 `;
@@ -177,10 +175,10 @@ const PlayerName = styled.TextInput`
   margin: 10px;
   height: 34px;
   border-radius: 8px;
-  border-color: ${({theme}) => theme.colors.lightGold};
+  border-color: ${theme.colors.lightGold};
   border-width: 1px;
-  font-size: ${({theme}) => theme.fontSizes.body1}px;
-  color: ${({theme}) => theme.colors.white};
+  font-size: ${theme.fontSizes.body1}px;
+  color: ${theme.colors.white};
 `;
 
 const PlayerImage = styled.Image`
@@ -208,5 +206,5 @@ const PlayerCard = styled.View`
   width: 150px;
   margin: 10px;
   border-radius: 8px;
-  border: 1px solid white;
+  border: 1px solid ${theme.colors.gold};
 `;

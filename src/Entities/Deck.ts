@@ -8,7 +8,7 @@ const CardsImages = [
   require('../assets/images/mine1.jpg'),
   require('../assets/images/mine2.jpg'),
   require('../assets/images/mine3.jpg'),
-  require('../assets/images/mine4.jpg'),
+  require('../assets/images/mine4.png'),
   require('../assets/images/ship1.jpg'),
   require('../assets/images/ship2.jpg'),
   require('../assets/images/ship3.jpg'),
@@ -26,9 +26,9 @@ export const CardsBack = [
 const NobleImages = [
   require('../assets/images/noble1.png'),
   require('../assets/images/noble2.png'),
-  require('../assets/images/noble3.png'),
-  require('../assets/images/noble4.png'),
-]
+  require('../assets/images/noble3.jpg'),
+  require('../assets/images/noble4.jpg'),
+];
 export interface ICard {
   imageIndex: number;
   value?: number;
@@ -37,8 +37,24 @@ export interface ICard {
   cardBackIndex: number;
   cardLevel: number;
 }
+const shuffle =  <T>(arr:T[])=> {
+  let currentIndex = arr.length;
+  let randomIndex;
 
-class Dealer implements IDealer {
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    [arr[currentIndex], arr[randomIndex]] = [
+      arr[randomIndex],
+      arr[currentIndex],
+    ];
+  }
+
+  return arr;
+};
+
+export class Dealer implements IDealer {
   cards: ICard[][] = [];
   nobles:ICard[] = [];
   constructor() {
@@ -50,7 +66,7 @@ class Dealer implements IDealer {
       return {
         cardLevel: 4,
         cardBackIndex: 3,
-        imageIndex: Math.round(Math.random()* NobleImages.length),
+        imageIndex: Math.round(Math.random() * NobleImages.length),
         //TODO: noble cost!
       } as ICard;
     });
@@ -63,13 +79,13 @@ class Dealer implements IDealer {
     return null;
   }
   mapJsonToCard(level: number) {
-    return jsonCards.cards
+    return shuffle(jsonCards.cards
       .filter(card => card.level === level)
-      .shuffle()
+      )
       .map(
         card =>
           ({
-            cardBackIndex: level,
+            cardBackIndex: level - 1,
             cardLevel: 1,
             imageIndex: Math.round(Math.random() * CardsImages.length),
             cost: card.cost.split('+').map(
