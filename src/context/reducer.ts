@@ -30,8 +30,8 @@ export const gameInitialState: IGameState = {
   board: {
     row1: new Array(4).fill(null) as CardRowTuple,
     row2: new Array(4).fill(null) as CardRowTuple,
-    row3: new Array(4).fill(null) as CardRowTuple
-  }
+    row3: new Array(4).fill(null) as CardRowTuple,
+  },
 };
 export const gameReducer = (state: IGameState, action: IAction) => {
   switch (action.type) {
@@ -41,7 +41,7 @@ export const gameReducer = (state: IGameState, action: IAction) => {
       const board = {
         row1: new Array(4).fill(null).map(_=>dealer.getCardByLevel(0)) as CardRowTuple,
         row2: new Array(4).fill(null).map(_=>dealer.getCardByLevel(1)) as CardRowTuple,
-        row3: new Array(4).fill(null).map(_=>dealer.getCardByLevel(2)) as CardRowTuple
+        row3: new Array(4).fill(null).map(_=>dealer.getCardByLevel(2)) as CardRowTuple,
       };
       return {...state, settings: newSettings, players: action.gameState.players, dealer: dealer, board} as IGameState;
     default:

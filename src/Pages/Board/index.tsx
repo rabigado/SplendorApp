@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { GameContext } from '../../context/context';
 import styled from 'styled-components/native';
 import { BaseText, FlexColumn, FlexRow } from '../../shardStyles';
@@ -9,7 +9,6 @@ import Avatar from '../../Components/Avatar';
 import { playersImages } from '../../Entities/Settings';
 
 import Card from '../../Components/Card/Card';
-import { ICard } from '../../Entities/Deck';
 
 export type GameProps = NativeStackScreenProps<
   RootStackParamList,
