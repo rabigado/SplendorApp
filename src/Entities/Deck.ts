@@ -19,6 +19,7 @@ export const CardsImages = [
 export interface IDealer {
   cards: ICard[][];
   nobles: ICard[];
+  getCardByLevel(level: number): ICard | null
 }
 export const CardsBack = [
   require('../assets/images/card1back.png'),
@@ -32,6 +33,7 @@ const NobleImages = [
   require('../assets/images/noble4.jpg'),
 ];
 export interface ICard {
+  id: number;
   imageIndex: number;
   value?: number;
   gemValue: IGem;
@@ -64,8 +66,9 @@ export class Dealer implements IDealer {
     const deck2 = this.mapJsonToCard(2);
     const deck3 = this.mapJsonToCard(3);
     this.cards = [deck1, deck2, deck3];
-    this.nobles = jsonCards.nobles.map(noble => {
+    this.nobles = jsonCards.nobles.map((noble,index) => {
       return {
+        id: index,
         cardLevel: 4,
         cardBackIndex: 3,
         imageIndex: Math.round(Math.random() * NobleImages.length),
@@ -73,7 +76,7 @@ export class Dealer implements IDealer {
       } as ICard;
     });
   }
-  getCardByLevel(level: number): ICard | null {
+  getCardByLevel(level: 0|1|2): ICard | null {
     if (this.cards[level].length > 0) {
       return this.cards[level].pop() as ICard;
     }
@@ -85,8 +88,9 @@ export class Dealer implements IDealer {
       .filter(card => card.level === level)
       )
       .map(
-        card =>
+        (card,index) =>
           ({
+            id: index,
             cardBackIndex: level - 1,
             cardLevel: 1,
             imageIndex: Math.floor(Math.random() * (CardsImages.length - 1)),

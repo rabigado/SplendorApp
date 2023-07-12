@@ -1,86 +1,89 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { CardsBack, CardsImages, ICard } from '../../Entities/Deck';
 import styled from 'styled-components/native';
-import { Animated } from 'react-native';
 import { StyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 import { ViewStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+import Animated, { interpolate, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
-export default (props: ICard & { faceUp: boolean, style: StyleProp<ViewStyle> }) => {
-  const flipAnimation = useRef(new Animated.Value(0)).current;
-  let flipRotation = 0;
-  flipAnimation.addListener(({ value }) => flipRotation = value);
-  const flipToFrontStyle = {
-    transform: [
-      {
-        rotateY: flipAnimation.interpolate({
-          inputRange: [0, 180],
-          outputRange: ['0deg', '180deg'],
-        }),
-      },
-    ],
-  };
-  const flipToBackStyle = {
-    transform: [
-      {
-        rotateY: flipAnimation.interpolate({
-          inputRange: [0, 180],
-          outputRange: ['180deg', '360deg'],
-        }),
-      },
-    ],
-  };
-  const flipToFront = () => {
-    Animated.timing(flipAnimation, {
-      toValue: 180,
-      duration: 800,
-      useNativeDriver: true,
-    }).start();
-  };
-  const flipToBack = () => {
-    Animated.timing(flipAnimation, {
-      toValue: 0,
-      duration: 800,
-      useNativeDriver: true,
-    }).start();
-  };
+export default (props: ICard & { faceUp?: boolean, style?: StyleProp<ViewStyle> }) => {
+  const spin = useSharedValue<number>(0);
 
-  useEffect(() => {
+  const rStyle = useAnimatedStyle(() => {
+    const spinVal = interpolate(spin.value, [0, 1], [0, 180]);
+    return {
+      transform: [
+        {
+          rotateY: withTiming(`${spinVal}deg`, { duration: 500 }),
+        },
+      ],
+    };
+  }, []);
 
-     props.faceUp ? flipToFront() : flipToBack();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.faceUp]);
-  return (
-    <CardContainer style={props.style}>
-      <Animated.View style={flipToFrontStyle}>
-        <CardHeader />
-        <CardCost />
-        <CardFrontView resizeMethod={'scale'}
-                       source={CardsImages[props.imageIndex]}
-        />
-      </Animated.View>
-      <Animated.View style={flipToBackStyle}>
-        <CardBackView
-          resizeMethod={'resize'}
-          source={CardsBack[props.cardBackIndex]}
-        />
-      </Animated.View>
-    </CardContainer>
+  useEffect(()=>{
+    if (props.faceUp){
+      setTimeout(()=>{
+        spin.value = spin.value ? 0 : 1;
+      }, 75 * props.id);
+    }
+  },[props.faceUp]);
+
+  const bStyle = useAnimatedStyle(() => {
+    const spinVal = interpolate(spin.value, [0, 1], [180, 360]);
+    return {
+      transform: [
+        {
+          rotateY: withTiming(`${spinVal}deg`, { duration: 500 }),
+        },
+      ],
+    };
+  }, []);
+
+  return (<View style={props.style}>
+      <Pressable
+        onPress={() => (spin.value = spin.value ? 0 : 1)}
+      >
+        <View>
+          <Animated.View style={[Styles.front, rStyle]}>
+            <CardBackView
+              resizeMethod={'resize'}
+              source={CardsBack[props.cardBackIndex]}
+            />
+          </Animated.View>
+          <Animated.View style={[Styles.back, bStyle]}>
+            <CardFrontView resizeMethod={'resize'}
+                           source={CardsImages[props.imageIndex]}
+            />
+          </Animated.View>
+        </View>
+      </Pressable>
+    </View>
   );
 };
+const Styles = StyleSheet.create({
+  front: {
+    height: 100,
+    width: 75,
+    borderRadius: 16,
+    position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backfaceVisibility: 'hidden',
+  },
+  back: {
+    height: 100,
+    width: 75,
+    borderRadius: 16,
+    backfaceVisibility: 'hidden',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 
-const CardContainer = styled.View`
-  flex: 1;
-  position: relative;
-  height: 100px;
-  width: 75px;
-`;
-const CardHeader = styled.View``;
-const CardCost = styled.View``;
 const CardFrontView = styled.Image`
   height: 100px;
   width: 75px;
   backface-visibility: hidden;
-  top: 0;
 `;
 
 const CardBackView = styled.Image`
