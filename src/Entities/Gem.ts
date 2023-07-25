@@ -8,28 +8,54 @@ export const GemsIcons = [
 ];
 
 export enum GemType {
-  Gold,
-  Ruby,
-  Sapphire,
-  Onyx,
-  Emerald,
-  Diamond,
+  Ruby= 1,
+  Sapphire = 2,
+  Onyx= 3,
+  Emerald= 4,
+  Diamond= 5,
 }
+
+export enum CardCost {
+  r = 'red',
+  u = 'blue',
+  w = 'white',
+  g = 'green',
+  k = 'black'
+}
+
 export function mapCharToGemType(char: string){
   switch (char){
-    case 'r':
+    case 'red':
       return GemType.Ruby;
-    case 'u':
+    case 'blue':
       return GemType.Sapphire;
-    case 'w':
+    case 'white':
       return GemType.Diamond;
-    case 'g':
+    case 'green':
       return GemType.Emerald;
-    case 'b':
+    case 'black':
       return GemType.Onyx;
   }
 }
+
+export function getGemByColor(color: string): IGem | undefined{
+  switch (color){
+    case 'red':
+      return { imageIndex:GemType.Ruby,color, coinIndex:GemType.Ruby };
+    case 'blue':
+      return { imageIndex:GemType.Sapphire,color, coinIndex:GemType.Sapphire };
+    case 'white':
+      return { imageIndex:GemType.Diamond,color, coinIndex:GemType.Diamond };
+    case 'green':
+      return { imageIndex:GemType.Emerald,color, coinIndex:GemType.Emerald };
+    case 'black':
+      return { imageIndex:GemType.Onyx,color, coinIndex:GemType.Onyx };
+  }
+}
+
 export interface IGem {
   imageIndex: GemType;
-  color: 'white' | 'blue' | 'green' | 'red' | 'black';
+  color: 'white' | 'blue' | 'green' | 'red' | 'black' | 'yellow';
+  coinIndex: number
 }
+

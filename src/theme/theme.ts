@@ -4,6 +4,7 @@ import {Modal, TextField, DefaultTheme} from 'styled-components/native';
 
 export const colors: IColors = {
   white: 'white',
+  lightWhite: 'rgba(255,255,255,.4)',
   black: 'rgba(0,0,0,0.63)',
   accent: {
     red60: '#FF6666',

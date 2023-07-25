@@ -1,5 +1,6 @@
-import {IGem, mapCharToGemType} from './Gem';
+import { CardCost, getGemByColor, IGem, mapCharToGemType } from './Gem';
 import jsonCards from '../assets/cards.json';
+import { groupBy, map } from 'lodash';
 
 
 export const CardsImages = [
@@ -16,23 +17,26 @@ export const CardsImages = [
   require('../assets/images/ship3.jpg'),
   require('../assets/images/ship4.jpg'),
 ];
+
 export interface IDealer {
   cards: ICard[][];
   nobles: ICard[];
-  getCardByLevel(level: number): ICard | null
 }
+
 export const CardsBack = [
   require('../assets/images/card1back.png'),
   require('../assets/images/card2back.png'),
   require('../assets/images/card3back.png'),
 ];
-const NobleImages = [
+export const NobleImages = [
   require('../assets/images/noble1.png'),
   require('../assets/images/noble2.png'),
   require('../assets/images/noble3.jpg'),
   require('../assets/images/noble4.jpg'),
 ];
+
 export interface ICard {
+  color: string;
   id: number;
   imageIndex: number;
   value?: number;
@@ -41,7 +45,8 @@ export interface ICard {
   cardBackIndex: number;
   cardLevel: number;
 }
-const shuffle =  <T>(arr:T[])=> {
+
+const shuffle = <T>(arr: T[]) => {
   let currentIndex = arr.length;
   let randomIndex;
 
@@ -57,51 +62,32 @@ const shuffle =  <T>(arr:T[])=> {
 
   return arr;
 };
+export function mapJsonToCard(level: number) {
 
-export class Dealer implements IDealer {
-  cards: ICard[][] = [];
-  nobles:ICard[] = [];
-  constructor() {
-    const deck1 = this.mapJsonToCard(1);
-    const deck2 = this.mapJsonToCard(2);
-    const deck3 = this.mapJsonToCard(3);
-    this.cards = [deck1, deck2, deck3];
-    this.nobles = jsonCards.nobles.map((noble,index) => {
-      return {
-        id: index,
-        cardLevel: 4,
-        cardBackIndex: 3,
-        imageIndex: Math.round(Math.random() * NobleImages.length),
-        //TODO: noble cost!
-      } as ICard;
-    });
-  }
-  getCardByLevel(level: 0|1|2): ICard | null {
-    if (this.cards[level].length > 0) {
-      return this.cards[level].pop() as ICard;
-    }
+  return shuffle(jsonCards.cards
+    .filter(card => card.level === level)
+  )
+    .map(
+      (card, index) =>
+        ({
+          id: index,
+          color: card.color,
+          cardBackIndex: level - 1,
+          cardLevel: level,
+          value: card.pv,
+          //TODO: gemValue
+          gemValue: getGemByColor(card.color),
+          imageIndex: Math.floor(Math.random() * (CardsImages.length - 1)),
+          cost:card.cost.split('+')
+            .map(item=> new Array(Number(item[0])).fill(item[1])).flat().map((i:keyof typeof CardCost)=>CardCost[i]).map(color=>getGemByColor(color) as IGem),
+        } as ICard)
+    );
+}
 
-    return null;
+export function getCardByLevel(dealer:IDealer, level: 0 | 1 | 2): ICard | null {
+  if (dealer.cards[level].length > 0) {
+    return dealer.cards[level].pop() as ICard;
   }
-  mapJsonToCard(level: number) {
-    return shuffle(jsonCards.cards
-      .filter(card => card.level === level)
-      )
-      .map(
-        (card,index) =>
-          ({
-            id: index,
-            cardBackIndex: level - 1,
-            cardLevel: 1,
-            imageIndex: Math.floor(Math.random() * (CardsImages.length - 1)),
-            cost: card.cost.split('+').map(
-              char =>
-                ({
-                  color: card.cost,
-                  imageIndex: mapCharToGemType(char),
-                } as IGem),
-            ),
-          } as ICard),
-      );
-  }
+
+  return null;
 }

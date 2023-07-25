@@ -2,67 +2,67 @@
   "nobles":[
     {
       "cost": {
-        "GREEN": "3",
-        "BLUE": "3",
-        "WHITE": "3"
+        "green": 3,
+        "blue": 3,
+        "white": 3
       }
     },
     {
       "cost": {
-        "BLACK": "3",
-        "RED": "3",
-        "WHITE": "3"
+        "black": 3,
+        "red": 3,
+        "white": 3
       }
     },
     {
       "cost": {
-        "BLACK": "3",
-        "BLUE": "3",
-        "WHITE": "3"
+        "black": 3,
+        "blue": 3,
+        "white": 3
       }
     },
     {
       "cost": {
-        "BLACK": "3",
-        "RED": "3",
-        "GREEN": "3"
+        "black": 3,
+        "red": 3,
+        "green": 3
       }
     },
     {
       "cost": {
-        "GREEN": "3",
-        "BLUE": "3",
-        "RED": "3"
+        "green": 3,
+        "blue": 3,
+        "red": 3
       }
     },
     {
       "cost": {
-        "BLUE": "4",
-        "GREEN": "4"
+        "blue": 4,
+        "green": 4
       }
     },
     {
       "cost": {
-        "BLACK": "4",
-        "WHITE": "4"
+        "black": 4,
+        "white": 4
       }
     },
     {
       "cost": {
-        "BLACK": "4",
-        "RED": "4"
+        "black": 4,
+        "red": 4
       }
     },
     {
       "cost": {
-        "BLUE": "4",
-        "WHITE": "4"
+        "blue": 4,
+        "white": 4
       }
     },
     {
       "cost": {
-        "RED": "4",
-        "GREEN": "4"
+        "red": 4,
+        "green": 4
       }
     }
   ],

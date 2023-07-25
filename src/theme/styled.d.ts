@@ -4,6 +4,7 @@ import {SkeletonCard} from 'styled-components';
 
 export interface IColors {
   white: string;
+  lightWhite: string;
   black: string;
   accent: {
     red60: string;

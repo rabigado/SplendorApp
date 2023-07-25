@@ -1,5 +1,5 @@
 import React from 'react';
-import { BaseText, FullPageView } from '../../shardStyles';
+import { ButtonText, FullPageView, StyledButton } from '../../shardStyles';
 import styled from 'styled-components/native';
 import LinearGradient from 'react-native-linear-gradient';
 import { deviceWidth } from '../../utils/dimensionHelper';
@@ -16,35 +16,25 @@ export default () => {
         colors={[theme.colors.lightGold, theme.colors.mediumBlue]}>
         <FlexCenterContainer>
           <StyledImage source={MainImageAsset} />
-          <StyledButton onPress={() => navigate('Settings')}>
+          <FloatingButton onPress={() => navigate('Settings')}>
             <ButtonText>Start a new game</ButtonText>
-          </StyledButton>
+          </FloatingButton>
         </FlexCenterContainer>
       </GoldBorderContainer>
     </FullPageView>
   );
 };
 
+const FloatingButton = styled(StyledButton)`
+  position: absolute;
+  top: 50%;
+`;
+
 const FlexCenterContainer = styled.View`
   display: flex;
   flex: 1;
 `;
 
-const ButtonText = styled(BaseText)`
-  color: ${theme.colors.white};
-  font-size: ${theme.fontSizes.h2}px;
-  margin: auto;
-`;
-const StyledButton = styled.TouchableOpacity`
-  align-self: center;
-  position: absolute;
-  top: 50%;
-  border: 3px solid rgba(255, 215, 0, 1);
-  border-radius: 40px;
-  height: 40px;
-  width: 200px;
-  background: ${theme.colors.darkBlue};
-`;
 
 const StyledImage = styled.Image`
   align-self: center;

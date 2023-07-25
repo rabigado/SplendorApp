@@ -5,14 +5,14 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../Game';
 import StartGameButton from '../../Components/3DButton/index';
 import { ISettings, playersImages } from '../../Entities/Settings';
-import { GemsIcons } from '../../Entities/Gem';
+import { GemsIcons, GemType } from '../../Entities/Gem';
 import styled from 'styled-components/native';
 import { IPlayer } from '../../Entities/Player';
 import RefreshImageIcon from '../../assets/images/icons/activity.svg';
 import AddPlayerIcon from '../../assets/images/icons/addPlayerIcon.svg';
 import RemovePlayer from '../../assets/images/icons/removePlayer.svg';
 import { View } from 'react-native';
-import { ActionTypes  } from '../../context/reducer';
+import { ActionTypes } from '../../context/reducer';
 import { GameContext } from '../../context/context';
 
 export type SettingsProps = NativeStackScreenProps<
@@ -21,18 +21,31 @@ export type SettingsProps = NativeStackScreenProps<
 >;
 const MinPlayers = 2;
 const MaxPlayers = 4;
-
-export default ({navigation}: SettingsProps) => {
-  const { dispatch, game } = useContext(GameContext);
+const randomId = () => {
+  return Math.random() * 100;
+};
+export default ({ navigation }: SettingsProps) => {
+  const { dispatch } = useContext(GameContext);
   const [players, setPlayers] = useState<IPlayer[]>(
     new Array(MinPlayers).fill(0).map((_, index) => {
       return {
+        id: randomId(),
         playerName: `Player-${index + 1}`,
         imageIndex: index,
+        playerGems: {
+          [GemType.Ruby]: [],
+          [GemType.Onyx]: [],
+          [GemType.Emerald]: [],
+          [GemType.Sapphire]: [],
+          [GemType.Diamond]: [],
+        },
+        cards: [],
+        savedCards: [],
+        gold: 0,
       };
-    }),
+    })
   );
-  const settings: ISettings = game?.settings ?? {
+  const settings: ISettings = {
     numberOfTokens: players.length < 2 ? 4 : players.length === 4 ? 7 : 5,
     winCondition: 15,
     nobles: players.length + 1,
@@ -54,22 +67,33 @@ export default ({navigation}: SettingsProps) => {
     setPlayers(
       !isRemove
         ? [
-            ...players,
-            {
-              playerName: `Player-${index + 1}`,
-              imageIndex: index,
+          ...players,
+          {
+            id: randomId(),
+            playerName: `Player-${index + 1}`,
+            imageIndex: index,
+            playerGems: {
+              [GemType.Ruby]: [],
+              [GemType.Onyx]: [],
+              [GemType.Emerald]: [],
+              [GemType.Sapphire]: [],
+              [GemType.Diamond]: [],
             },
-          ]
+            cards: [],
+            gold: 0,
+            savedCards: [],
+          },
+        ]
         : players.length > MinPlayers
-        ? players.filter((_, indexToRemove) => index !== indexToRemove)
-        : players,
+          ? players.filter((_, indexToRemove) => index !== indexToRemove)
+          : players
     );
   };
 
   const handleStartGame = () => {
     dispatch?.({
       type: ActionTypes.SETTINGS,
-      gameState: {settings, players},
+      gameState: { settings, players },
     });
   };
 
@@ -118,7 +142,7 @@ export default ({navigation}: SettingsProps) => {
         </View>
         <View>
           {GemsIcons.map((gem, index) => {
-            return (<GemImage key={index} source={gem} resizeMethod={'resize'}  />);
+            return (<GemImage key={index} source={gem} resizeMethod={'resize'} />);
           })}
         </View>
       </GameDetailsContainer>

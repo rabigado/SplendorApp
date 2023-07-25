@@ -15,7 +15,6 @@ export default  ({imageUrl,size}:{imageUrl:ImageSourcePropType, size?: number})=
 const PlayerImage = styled.Image`
   width: 100%;
   height: 100%;
-
 `;
 
 

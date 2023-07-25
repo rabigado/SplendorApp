@@ -5,7 +5,7 @@ import { NavigationContainer, NavigationProp } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { GameContextProvider } from './context/context';
 import Board from './Pages/Board';
-
+import Toast from 'react-native-toast-message';
 export type ScreenNames = ['Welcome', 'Settings', 'Game'];
 export type RootStackParamList = Record<ScreenNames[number], undefined>;
 export type StackNavigation = NavigationProp<RootStackParamList>;
@@ -27,6 +27,7 @@ export default () => {
           <Stack.Screen name="Game" options={{orientation: 'landscape'}} component={Board} />
         </Stack.Navigator>
       </NavigationContainer>
+      <Toast/>
     </GameContextProvider>
   );
 };
