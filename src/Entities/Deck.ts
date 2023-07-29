@@ -75,7 +75,6 @@ export function mapJsonToCard(level: number) {
           cardBackIndex: level - 1,
           cardLevel: level,
           value: card.pv,
-          //TODO: gemValue
           gemValue: getGemByColor(card.color),
           imageIndex: Math.floor(Math.random() * (CardsImages.length - 1)),
           cost:card.cost.split('+')

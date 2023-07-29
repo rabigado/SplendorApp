@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Pressable, StyleSheet, TouchableOpacity, View } from 'react-native';
+import React from 'react';
+import { TouchableOpacity, View } from 'react-native';
 import { CardsBack, CardsImages, ICard } from '../../Entities/Deck';
 import styled from 'styled-components/native';
 import { StyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
@@ -11,6 +11,7 @@ import { GemsIcons } from '../../Entities/Gem';
 
 export default (props: ICard & {
   processable?: boolean,
+  canBuy?:boolean,
   faceUp?: boolean,
   style?: StyleProp<ViewStyle>,
   onPress?: () => void,
@@ -42,7 +43,7 @@ export default (props: ICard & {
       ],
     };
   }, []);
-  return (<Card style={props.style}>
+  return (<Card style={props.style} canBuy={props.canBuy}>
       <TouchableOpacity
         onPress={() => {
           props.onPress?.();
@@ -118,7 +119,8 @@ const CardHeader = styled.View`
   padding: 2px 4px 0;
 `;
 
-const Card = styled.View`
+const Card = styled.View<{canBuy?:boolean}>`
+  ${({canBuy,theme})=>canBuy ? `border:2px solid ${theme.colors.lightGold};`:''}
   border-color: ${({ theme }) => theme.colors.lightText};
   border-radius: 4px;
   overflow: hidden;

@@ -42,13 +42,8 @@ const PlayerSingleResourceView = ({ gemValue, cardValue, imageIndex }: {
 export default () => {
   const { game: { currentPlayerId, players } } = useContext(GameContext);
   const [showReserved,setShowReserved] = useState(false);
+  const [showOwned,setShowOwned] = useState(false);
   const player = currentPlayerId !== -1 ? players[currentPlayerId] : null;
-  const showSavedCards = (card: ICard) => {
-    console.log('not implemented yet', card);
-  };
-  const showOwnedCards = () => {
-    console.log('not implemented yet');
-  };
 
   return <PlayerData>
     <StyledImageBackground source={background} resizeMode="stretch" style={{ flex: 1 }}>
@@ -77,28 +72,34 @@ export default () => {
                                   cardValue={0}
                                   gemValue={player?.gold ?? 0}
         />
-        <FlexRow>
-          {player?.cards.map((card, index) => <Card
-            onPress={showOwnedCards}
-            processable={false}
-            faceUp={true}
-            style={{
-              height: 50, width: 25, zIndex: 1, position: 'absolute',
-              left: 3 * index
-            }} key={`${card.id}-${card.cardLevel}`} {...card} />)}
-        </FlexRow>
-        <FlexRow>
-          {player?.savedCards.length ? <StyledButton onPress={()=>setShowReserved(true)}>
+        <FlexColumn>
+          <ShowDeckButton disabled={player?.savedCards.length === 0} onPress={()=>setShowReserved(true)}>
            <BaseText>
-              show reserved
+             {`reserved ${player?.savedCards.length}/3`}
            </BaseText>
-          </StyledButton> : null}
-        </FlexRow>
+          </ShowDeckButton>
+          <ShowDeckButton disabled={player?.cards.length === 0} onPress={()=>setShowReserved(true)}>
+            <BaseText>
+              owned {`(${player?.cards.length})`}
+            </BaseText>
+          </ShowDeckButton>
+        </FlexColumn>
       </StyledRow>
     </StyledImageBackground>
     <CardsCarouselModal cards={player?.savedCards ?? []} visible={showReserved} setModalOpen={setShowReserved} />
+    <CardsCarouselModal cards={player?.cards ?? []} visible={showOwned} setModalOpen={setShowOwned} />
   </PlayerData>;
 };
+
+const ShowDeckButton = styled(StyledButton)<{disabled?:boolean}>`
+  ${({disabled})=> disabled ? 'opacity:.65;' : ''}
+  width: 100px;
+  height: 25px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+`;
+
 const StyledRow = styled(FlexRow)`
   padding: 5px;
 `;
@@ -117,7 +118,6 @@ const PlayerData = styled(FlexColumn)`
   flex-wrap: wrap;
   height: 100%;
   min-width: 350px;
-  
   flex: 1;
   justify-content: center;
 `;

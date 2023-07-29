@@ -5,5 +5,6 @@ module.exports = {
     'prettier/prettier': 0,
     'react/self-closing-comp': 'off',
     'react-hooks/exhaustive-deps': 'off',
+    'no-trailing-spaces':'off',
   },
 };

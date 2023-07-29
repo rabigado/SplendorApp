@@ -1,9 +1,8 @@
-import { BaseText, FullPageView } from '../../shardStyles';
+import { BaseText, FlexColumn, FlexRow, FullPageView, StyledButton } from '../../shardStyles';
 import theme, { colors } from '../../theme/theme';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../Game';
-import StartGameButton from '../../Components/3DButton/index';
 import { ISettings, playersImages } from '../../Entities/Settings';
 import { GemsIcons, GemType } from '../../Entities/Gem';
 import styled from 'styled-components/native';
@@ -11,7 +10,7 @@ import { IPlayer } from '../../Entities/Player';
 import RefreshImageIcon from '../../assets/images/icons/activity.svg';
 import AddPlayerIcon from '../../assets/images/icons/addPlayerIcon.svg';
 import RemovePlayer from '../../assets/images/icons/removePlayer.svg';
-import { View } from 'react-native';
+import { View, Keyboard } from 'react-native';
 import { ActionTypes } from '../../context/reducer';
 import { GameContext } from '../../context/context';
 
@@ -25,19 +24,21 @@ const randomId = () => {
   return Math.random() * 100;
 };
 export default ({ navigation }: SettingsProps) => {
-  const { dispatch } = useContext(GameContext);
+  const { dispatch, game:{settings}} = useContext(GameContext);
+  const [isKeyboardOpen,setIsKeyboardOpen] = useState(false);
   const [players, setPlayers] = useState<IPlayer[]>(
     new Array(MinPlayers).fill(0).map((_, index) => {
       return {
         id: randomId(),
+        aiPlayer: false,
         playerName: `Player-${index + 1}`,
         imageIndex: index,
         playerGems: {
-          [GemType.Ruby]: [],
-          [GemType.Onyx]: [],
-          [GemType.Emerald]: [],
-          [GemType.Sapphire]: [],
-          [GemType.Diamond]: [],
+          [GemType.Ruby]: [],//...new Array(25).fill(getGemByColor('red') as IGem)
+          [GemType.Onyx]: [],//...new Array(25).fill(getGemByColor('black') as IGem)
+          [GemType.Emerald]: [],//...new Array(25).fill(getGemByColor('green') as IGem)
+          [GemType.Sapphire]: [],//...new Array(25).fill(getGemByColor('blue') as IGem)
+          [GemType.Diamond]: [],//...new Array(25).fill(getGemByColor('white') as IGem)
         },
         cards: [],
         savedCards: [],
@@ -45,8 +46,18 @@ export default ({ navigation }: SettingsProps) => {
       };
     })
   );
-  const settings: ISettings = {
-    numberOfTokens: players.length < 2 ? 4 : players.length === 4 ? 7 : 5,
+
+  useEffect(() => {
+    const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
+      setIsKeyboardOpen(false);
+    });
+    return () => {
+      hideSubscription.remove();
+    };
+  }, []);
+
+  const newGameSettings: ISettings = {
+    numberOfTokens: players.length <= 2 ? 4 : players.length === 4 ? 7 : 5,
     winCondition: 15,
     nobles: players.length + 1,
     goldTokens: 5,
@@ -82,6 +93,7 @@ export default ({ navigation }: SettingsProps) => {
             cards: [],
             gold: 0,
             savedCards: [],
+            aiPlayer: false,
           },
         ]
         : players.length > MinPlayers
@@ -90,40 +102,64 @@ export default ({ navigation }: SettingsProps) => {
     );
   };
 
+  useEffect(()=>{
+    if (settings){
+      navigation.navigate('Game');
+    }
+  },[settings]);
+
   const handleStartGame = () => {
     dispatch?.({
       type: ActionTypes.SETTINGS,
-      gameState: { settings, players },
+      gameState: { settings: newGameSettings, players },
     });
   };
 
+  const setPlayerAi = (playerNumber:number)=>{
+    setPlayers([...players.map((p,index)=>({...p,aiPlayer:index === playerNumber ? !p.aiPlayer : p.aiPlayer} as IPlayer))]);
+  };
+
   return (
-    <FullPageView background={colors.lightBlue}>
+    <FullPageView background={colors.lightBlue} >
       <PlayerContainer>
         {new Array(MaxPlayers).fill(0).map((_, index) => {
           return (
             <PlayerCard key={index}>
               {players[index] ? (
-                <>
-                  <ReplaceImage onPress={() => handleImageChange(index)}>
-                    <RefreshImageIcon />
-                  </ReplaceImage>
-                  <RemovePlayerTouch
-                    onPress={() => handleChangePlayer(index, true)}>
-                    <RemovePlayer height={24} width={24} />
-                  </RemovePlayerTouch>
+                <PlayerDetails>
                   <PlayerImage
                     resizeMethod={'resize'}
                     source={playersImages[players[index].imageIndex]}
-                  />
+                  >
+                  <FullRow flex={1}>
+                    <ReplaceImage onPress={() => handleImageChange(index)}>
+                      <RefreshImageIcon />
+                    </ReplaceImage>
+                    <RemovePlayerTouch
+                      onPress={() => handleChangePlayer(index, true)}>
+                      <RemovePlayer height={24} width={24} />
+                    </RemovePlayerTouch>
+                  </FullRow>
+                  <FullRow>
+                    <BaseText>AI player</BaseText>
+                    <AIPlayerSelector
+                      trackColor={{false: theme.colors.background, true: theme.colors.lightGold}}
+                      thumbColor={players[index].aiPlayer ? theme.colors.mediumGold : theme.colors.lightText}
+                      ios_backgroundColor="#3e3e3e"
+                      onValueChange={()=>setPlayerAi(index)}
+                      value={players[index].aiPlayer}
+                    />
+                  </FullRow>
                   <PlayerName
                     autoCorrect={true}
+                    onFocus={()=>setIsKeyboardOpen(true)}
                     value={players[index].playerName ?? ''}
                     onChangeText={(name: string) => {
                       handleChangeName(index, name);
                     }}
                   />
-                </>
+                  </PlayerImage>
+                </PlayerDetails>
               ) : (
                 <AddPlayerTouch onPress={() => handleChangePlayer(index)}>
                   <AddPlayerIcon />
@@ -135,10 +171,10 @@ export default ({ navigation }: SettingsProps) => {
       </PlayerContainer>
       <GameDetailsContainer>
         <View>
-          <DetailsText>Nobles: {settings.nobles}</DetailsText>
-          <DetailsText>Tokens: {settings.numberOfTokens}</DetailsText>
-          <DetailsText>Gold: {settings.goldTokens}</DetailsText>
-          <DetailsText>Win at: {settings.winCondition}</DetailsText>
+          <DetailsText>Nobles: {newGameSettings.nobles}</DetailsText>
+          <DetailsText>Tokens: {newGameSettings.numberOfTokens}</DetailsText>
+          <DetailsText>Gold: {newGameSettings.goldTokens}</DetailsText>
+          <DetailsText>Win at: {newGameSettings.winCondition}</DetailsText>
         </View>
         <View>
           {GemsIcons.map((gem, index) => {
@@ -146,18 +182,44 @@ export default ({ navigation }: SettingsProps) => {
           })}
         </View>
       </GameDetailsContainer>
-      <StartNewGameButton>
+      {!isKeyboardOpen ? <StartNewGameButton>
         <StartGameButton
-          title={'Venture forth'}
-          onPress={() => {
+          onPressOut={() => {
             handleStartGame();
-            navigation.navigate('Game');
           }}
-        />
-      </StartNewGameButton>
+        >
+          <ButtonText>
+            {'Venture forth'}
+          </ButtonText>
+        </StartGameButton>
+      </StartNewGameButton> : null}
     </FullPageView>
   );
 };
+
+const ButtonText = styled(BaseText)`
+  margin: 0 auto;
+`;
+
+const StartGameButton = styled(StyledButton)`
+  justify-content: center;
+  width: 150px;
+  margin: 10px;
+`;
+
+const AIPlayerSelector = styled.Switch`
+  
+`;
+
+const FullRow = styled(FlexRow)<{flex?:number}>`
+  justify-content: space-between;
+  margin: 10px;
+  ${({flex})=>flex ? `flex:${flex};` : ''}
+`;
+
+const PlayerDetails = styled(FlexColumn)`
+  flex:1;
+`;
 
 const StartNewGameButton = styled.View`
   position: absolute;
@@ -183,16 +245,10 @@ const AddPlayerTouch = styled.TouchableOpacity`
 `;
 
 const ReplaceImage = styled.TouchableOpacity`
-  position: absolute;
-  z-index: 11;
-  right: 5px;
-  top: 5px;
+  
 `;
 const RemovePlayerTouch = styled.TouchableOpacity`
-  position: absolute;
-  z-index: 11;
-  top: 5px;
-  left: 5px;
+
 `;
 
 const PlayerName = styled.TextInput`
@@ -205,9 +261,8 @@ const PlayerName = styled.TextInput`
   color: ${theme.colors.white};
 `;
 
-const PlayerImage = styled.Image`
-  max-width: 100%;
-  max-height: 75%;
+const PlayerImage = styled.ImageBackground`
+  height: 100%;
 `;
 
 const GemImage = styled.Image`
@@ -223,9 +278,7 @@ const PlayerContainer = styled.View`
 
 const PlayerCard = styled.View`
   position: relative;
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 1;
+  overflow: hidden;
   height: 200px;
   width: 150px;
   margin: 10px;

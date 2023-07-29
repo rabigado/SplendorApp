@@ -1,35 +1,26 @@
 import { isUndefined, last, map, noop, sum, values } from 'lodash';
-import { BaseText, ButtonText, Coin, FlexColumn, FlexRow, GemImage, StyledButton } from '../../shardStyles';
+import { BaseText, Coin, FlexColumn, FlexRow, GemImage } from '../../shardStyles';
 import { GemsIcons, GemType, IGem } from '../../Entities/Gem';
 import theme from '../../theme/theme';
 import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import { GameContext } from '../../context/context';
-import { ActionTypes, IGameState } from '../../context/reducer';
+import { ActionTypes } from '../../context/reducer';
 import Toast from 'react-native-toast-message';
-import { IPlayer } from '../../Entities/Player';
-
-const useLocalBank = (game:IGameState)=>{
-  const [tempCoins, setTempCoins] = useState([] as IGem[]);
-  const [localBank, setLocalBank] = useState({ ...game.bank });
-}
 
 
 export default () => {
-  const { game,setPlayerAction, currentPlayerAction } = useContext(GameContext);
+  const { game, setPlayerAction, currentPlayerAction } = useContext(GameContext);
   const [tempCoins, setTempCoins] = useState([] as IGem[]);
-  // const [playerGems, setPlayerGems] = useState({ ...game.players[game.currentPlayerId].playerGems });
+
   const [localBank, setLocalBank] = useState({ ...game.bank });
 
   useEffect(() => {
-    //new player in round.
-    // setPlayerGems(game.players[game.currentPlayerId].playerGems);
     setLocalBank(game.bank);
   }, [game.currentPlayerId]);
 
 
   useEffect(() => {
-    //new round.
     resetState();
   }, [game.currentPlayerId, game.currentRound]);
 
@@ -39,17 +30,18 @@ export default () => {
   };
 
   const giveCoinToPlayer = (gem: IGem) => {
-    if (currentPlayerAction && currentPlayerAction.type !== ActionTypes.COIN_TO_PLAYER){
+    if (currentPlayerAction && currentPlayerAction.type !== ActionTypes.COIN_TO_PLAYER) {
       return;
     }
     if (tempCoins.length === 2 && tempCoins.every(coin => coin.color === tempCoins[0].color)) {
       Toast.show({
         type: 'info',
-        text1: 'Already have 2 coins of same type',
+        text1: 'Already have 2 coins of same type'
       });
       return;
     }
-    const canPlayerTakeMoreCoins = (sum(values(game.players[game.currentPlayerId].playerGems).map(arr => arr.length)) + tempCoins.length) < 10;
+    const player = game.players[game.currentPlayerId];
+    const canPlayerTakeMoreCoins = (sum([...values(player.playerGems).map(arr => arr.length), player.gold]) + tempCoins.length) < 10;
     const hasTakenSameCoinType = tempCoins.some(tempGem => tempGem.color === gem.color);
     const maxCoinPerTurnTaken = tempCoins.length < (hasTakenSameCoinType ? 2 : 3);
     const enoughCoinsLeft = hasTakenSameCoinType ? localBank[gem.imageIndex].length > 3 : localBank[gem.imageIndex].length > 0;
@@ -58,36 +50,24 @@ export default () => {
     } else {
       Toast.show({
         type: 'info',
-        text1: 'Can\'t take more coins',
+        text1: 'Can\'t take more coins'
       });
     }
   };
 
-  useEffect(()=>{
-    if(tempCoins.length){
+  useEffect(() => {
+    if (tempCoins.length) {
       setPlayerAction({
         type: ActionTypes.COIN_TO_PLAYER,
         tempCoins,
         gameState: {
           ...game,
-          bank: localBank,
-        },
+          bank: localBank
+        }
       });
     }
-  },[tempCoins])
-  //
-  // const commit = () => {
-  //   dispatch({
-  //     type: ActionTypes.COIN_TO_PLAYER,
-  //     gameState: {
-  //       bank: localBank,
-  //       players: game.players.map((player, index) => index === game.currentPlayerId ? {
-  //         ...player,
-  //         playerGems,
-  //       } as IPlayer : player),
-  //     },
-  //   });
-  // };
+  }, [tempCoins]);
+
 
   return <BankSection size={game.settings?.numberOfTokens ?? 4}>
     {map(localBank, ((gems, index) => {
@@ -95,7 +75,7 @@ export default () => {
       if (!isUndefined(gem)) {
         return <RelativeRow key={`row=${gem.color}`}>
           <AmountOfCoins>{gems.length}</AmountOfCoins>
-          <CoinsStash  onPress={() => index === 'Gold' ? noop() : giveCoinToPlayer(gem)} >
+          <CoinsStash onPressOut={() => index === 'Gold' ? noop() : giveCoinToPlayer(gem)}>
             {gems.map((coin, i) => <BankCoin key={`${coin.color}-${i}`} color={coin.color} size={50} left={i * 8}>
               <GemImage
                 size={40}
@@ -108,10 +88,10 @@ export default () => {
       return <RelativeRow key={`row=${index}`}>
         <AmountOfCoins>{gems.length}</AmountOfCoins>
         <CoinsStash onPress={noop}>
-            <GemImage
-              size={40}
-              source={GemsIcons[Number(index)]}
-              resizeMethod={'resize'} />
+          <GemImage
+            size={40}
+            source={GemsIcons[Number(index)]}
+            resizeMethod={'resize'} />
         </CoinsStash>
       </RelativeRow>;
     }))}

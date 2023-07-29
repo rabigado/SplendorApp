@@ -23,7 +23,7 @@ export default () => {
             navigationBarHidden: true,
           }}>
           <Stack.Screen name="Welcome" component={Welcome} />
-          <Stack.Screen name="Settings" component={Settings} />
+          <Stack.Screen name="Settings" options={{orientation: 'portrait'}} component={Settings} />
           <Stack.Screen name="Game" options={{orientation: 'landscape'}} component={Board} />
         </Stack.Navigator>
       </NavigationContainer>

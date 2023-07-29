@@ -18,35 +18,3 @@ export interface ISettings {
   goldTokens: number;
   nobles: number;
 }
-
-export class Settings implements ISettings {
-  _goldTokens = 5;
-  _nobles = 3;
-  _numberOfTokens = 4;
-  _players = [] as IPlayer[];
-  _winCondition = 15;
-
-  constructor() {}
-
-  set players(players: IPlayer[]) {
-    this._players = players;
-    this._nobles = players.length + 1;
-    this._numberOfTokens =
-      players.length < 3 ? 4 : players.length === 4 ? 7 : 5;
-  }
-  get winCondition() {
-    return this._winCondition;
-  }
-  get players() {
-    return this._players;
-  }
-  get numberOfTokens() {
-    return this._numberOfTokens;
-  }
-  get nobles() {
-    return this._nobles;
-  }
-  get goldTokens() {
-    return this._goldTokens;
-  }
-}

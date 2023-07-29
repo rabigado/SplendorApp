@@ -1,6 +1,5 @@
 import { GemType, IGem } from './Gem';
 import { ICard } from './Deck';
-import { IAction } from '../context/reducer';
 
 
 export interface IPlayer {
@@ -17,4 +16,5 @@ export interface IPlayer {
   cards: ICard[];
   savedCards: ICard[]
   gold: number;
+  aiPlayer: boolean;
 }
