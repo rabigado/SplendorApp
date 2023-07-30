@@ -1,5 +1,6 @@
 import React, { createContext, FC, PropsWithChildren, useReducer, useState } from 'react';
 import { gameInitialState, gameReducer, IAction, IGameState } from './reducer';
+import { cloneDeep } from 'lodash';
 
 interface IGameContext {
   game: IGameState;
@@ -11,7 +12,7 @@ interface IGameContext {
 export const GameContext = createContext<IGameContext>({} as IGameContext);
 
 export const GameContextProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [game, dispatch] = useReducer(gameReducer, gameInitialState);
+  const [game, dispatch] = useReducer(gameReducer, cloneDeep(gameInitialState));
   const [currentPlayerAction, setPlayerAction] = useState<IAction | undefined>();
   return (
     <GameContext.Provider value={{ game, dispatch, currentPlayerAction, setPlayerAction }}>

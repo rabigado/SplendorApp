@@ -9,7 +9,7 @@ import Players from '../../Components/Players';
 import NewRoundModal from '../../Components/NewRoundModal';
 import { aiTurn } from '../../utils/aiUtils';
 import { ActionTypes } from '../../context/reducer';
-import { map, sum } from 'lodash';
+import WinnerModal from '../../Components/WinnerModal';
 
 const Bank = React.lazy(() => import('../../Components/Bank'));
 const Decks = React.lazy(() => import('../../Components/Decks'));
@@ -61,6 +61,7 @@ export default () => {
         })}
       </NoblesSection>
       <CardModal selectedCard={selectedCard} setSelectedCard={setSelectedCard} />
+      <WinnerModal fullScreen={true}/>
       <NewRoundModal />
     </Suspense>
   </GameScreenRoot>;

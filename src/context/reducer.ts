@@ -4,9 +4,10 @@ import { getCardByLevel, ICard, IDealer, mapJsonToCard, NobleImages } from '../E
 import { GemType, getGemByColor, IGem } from '../Entities/Gem';
 import jsonCards from '../assets/cards.json';
 import { nobleVisitPlayer } from '../utils/cardsUtil';
-import { isNumber, map, shuffle, take } from 'lodash';
+import { cloneDeep, isNumber, map, shuffle, take } from 'lodash';
 
 export enum ActionTypes {
+  NEW_GAME = 'NEW_GAME',
   END_TURN = 'END_TURN',
   SETTINGS = 'SETUP_SETTINGS',
   COIN_TO_PLAYER = 'COIN_TO_PLAYER',
@@ -197,6 +198,8 @@ export const gameReducer = (state: IGameState, action: IAction) => {
           } as IGem),
         },
       } as IGameState;
+    case ActionTypes.NEW_GAME:
+      return cloneDeep(gameInitialState);
     default:
       return state;
   }

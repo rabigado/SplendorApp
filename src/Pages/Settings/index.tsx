@@ -10,9 +10,10 @@ import { IPlayer } from '../../Entities/Player';
 import RefreshImageIcon from '../../assets/images/icons/activity.svg';
 import AddPlayerIcon from '../../assets/images/icons/addPlayerIcon.svg';
 import RemovePlayer from '../../assets/images/icons/removePlayer.svg';
-import { View, Keyboard } from 'react-native';
+import { Keyboard, View } from 'react-native';
 import { ActionTypes } from '../../context/reducer';
 import { GameContext } from '../../context/context';
+import { cloneDeep } from 'lodash';
 
 export type SettingsProps = NativeStackScreenProps<
   RootStackParamList,
@@ -24,33 +25,33 @@ const randomId = () => {
   return Math.random() * 100;
 };
 export default ({ navigation }: SettingsProps) => {
-  const { dispatch, game:{settings}} = useContext(GameContext);
-  const [isKeyboardOpen,setIsKeyboardOpen] = useState(false);
-  const [players, setPlayers] = useState<IPlayer[]>(
-    new Array(MinPlayers).fill(0).map((_, index) => {
-      return {
-        id: randomId(),
-        aiPlayer: false,
-        playerName: `Player-${index + 1}`,
-        imageIndex: index,
-        playerGems: {
-          [GemType.Ruby]: [],//...new Array(25).fill(getGemByColor('red') as IGem)
-          [GemType.Onyx]: [],//...new Array(25).fill(getGemByColor('black') as IGem)
-          [GemType.Emerald]: [],//...new Array(25).fill(getGemByColor('green') as IGem)
-          [GemType.Sapphire]: [],//...new Array(25).fill(getGemByColor('blue') as IGem)
-          [GemType.Diamond]: [],//...new Array(25).fill(getGemByColor('white') as IGem)
-        },
-        cards: [],
-        savedCards: [],
-        gold: 0,
-      };
-    })
-  );
+  const { dispatch, game: { settings } } = useContext(GameContext);
+  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
+  const initialPlayerState = new Array(MinPlayers).fill(0).map((_, index) => {
+    return {
+      id: randomId(),
+      aiPlayer: false,
+      playerName: `Player-${index + 1}`,
+      imageIndex: index,
+      playerGems: {
+        [GemType.Ruby]: [],//...new Array(25).fill(getGemByColor('red') as IGem)
+        [GemType.Onyx]: [],//...new Array(25).fill(getGemByColor('black') as IGem)
+        [GemType.Emerald]: [],//...new Array(25).fill(getGemByColor('green') as IGem)
+        [GemType.Sapphire]: [],//...new Array(25).fill(getGemByColor('blue') as IGem)
+        [GemType.Diamond]: []//...new Array(25).fill(getGemByColor('white') as IGem)
+      },
+      cards: [],
+      savedCards: [],
+      gold: 0
+    };
+  });
+  const [players, setPlayers] = useState<IPlayer[]>(cloneDeep(initialPlayerState));
 
   useEffect(() => {
     const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
       setIsKeyboardOpen(false);
     });
+    dispatch({ type: ActionTypes.NEW_GAME, gameState: {} });
     return () => {
       hideSubscription.remove();
     };
@@ -60,7 +61,7 @@ export default ({ navigation }: SettingsProps) => {
     numberOfTokens: players.length <= 2 ? 4 : players.length === 4 ? 7 : 5,
     winCondition: 15,
     nobles: players.length + 1,
-    goldTokens: 5,
+    goldTokens: 5
   };
   const handleChangeName = (index: number, event: string) => {
     const values = [...players];
@@ -88,13 +89,13 @@ export default ({ navigation }: SettingsProps) => {
               [GemType.Onyx]: [],
               [GemType.Emerald]: [],
               [GemType.Sapphire]: [],
-              [GemType.Diamond]: [],
+              [GemType.Diamond]: []
             },
             cards: [],
             gold: 0,
             savedCards: [],
-            aiPlayer: false,
-          },
+            aiPlayer: false
+          }
         ]
         : players.length > MinPlayers
           ? players.filter((_, indexToRemove) => index !== indexToRemove)
@@ -102,25 +103,28 @@ export default ({ navigation }: SettingsProps) => {
     );
   };
 
-  useEffect(()=>{
-    if (settings){
+  useEffect(() => {
+    if (settings) {
       navigation.navigate('Game');
     }
-  },[settings]);
+  }, [settings]);
 
   const handleStartGame = () => {
     dispatch?.({
       type: ActionTypes.SETTINGS,
-      gameState: { settings: newGameSettings, players },
+      gameState: { settings: newGameSettings, players }
     });
   };
 
-  const setPlayerAi = (playerNumber:number)=>{
-    setPlayers([...players.map((p,index)=>({...p,aiPlayer:index === playerNumber ? !p.aiPlayer : p.aiPlayer} as IPlayer))]);
+  const setPlayerAi = (playerNumber: number) => {
+    setPlayers([...players.map((p, index) => ({
+      ...p,
+      aiPlayer: index === playerNumber ? !p.aiPlayer : p.aiPlayer
+    } as IPlayer))]);
   };
 
   return (
-    <FullPageView background={colors.lightBlue} >
+    <FullPageView background={colors.lightBlue}>
       <PlayerContainer>
         {new Array(MaxPlayers).fill(0).map((_, index) => {
           return (
@@ -131,33 +135,33 @@ export default ({ navigation }: SettingsProps) => {
                     resizeMethod={'resize'}
                     source={playersImages[players[index].imageIndex]}
                   >
-                  <FullRow flex={1}>
-                    <ReplaceImage onPress={() => handleImageChange(index)}>
-                      <RefreshImageIcon />
-                    </ReplaceImage>
-                    <RemovePlayerTouch
-                      onPress={() => handleChangePlayer(index, true)}>
-                      <RemovePlayer height={24} width={24} />
-                    </RemovePlayerTouch>
-                  </FullRow>
-                  <FullRow>
-                    <BaseText>AI player</BaseText>
-                    <AIPlayerSelector
-                      trackColor={{false: theme.colors.background, true: theme.colors.lightGold}}
-                      thumbColor={players[index].aiPlayer ? theme.colors.mediumGold : theme.colors.lightText}
-                      ios_backgroundColor="#3e3e3e"
-                      onValueChange={()=>setPlayerAi(index)}
-                      value={players[index].aiPlayer}
+                    <FullRow flex={1}>
+                      <ReplaceImage onPress={() => handleImageChange(index)}>
+                        <RefreshImageIcon />
+                      </ReplaceImage>
+                      <RemovePlayerTouch
+                        onPress={() => handleChangePlayer(index, true)}>
+                        <RemovePlayer height={24} width={24} />
+                      </RemovePlayerTouch>
+                    </FullRow>
+                    <FullRow>
+                      <BaseText>AI player</BaseText>
+                      <AIPlayerSelector
+                        trackColor={{ false: theme.colors.background, true: theme.colors.lightGold }}
+                        thumbColor={players[index].aiPlayer ? theme.colors.mediumGold : theme.colors.lightText}
+                        ios_backgroundColor="#3e3e3e"
+                        onValueChange={() => setPlayerAi(index)}
+                        value={players[index].aiPlayer}
+                      />
+                    </FullRow>
+                    <PlayerName
+                      autoCorrect={true}
+                      onFocus={() => setIsKeyboardOpen(true)}
+                      value={players[index].playerName ?? ''}
+                      onChangeText={(name: string) => {
+                        handleChangeName(index, name);
+                      }}
                     />
-                  </FullRow>
-                  <PlayerName
-                    autoCorrect={true}
-                    onFocus={()=>setIsKeyboardOpen(true)}
-                    value={players[index].playerName ?? ''}
-                    onChangeText={(name: string) => {
-                      handleChangeName(index, name);
-                    }}
-                  />
                   </PlayerImage>
                 </PlayerDetails>
               ) : (
@@ -208,17 +212,17 @@ const StartGameButton = styled(StyledButton)`
 `;
 
 const AIPlayerSelector = styled.Switch`
-  
+
 `;
 
-const FullRow = styled(FlexRow)<{flex?:number}>`
+const FullRow = styled(FlexRow)<{ flex?: number }>`
   justify-content: space-between;
   margin: 10px;
-  ${({flex})=>flex ? `flex:${flex};` : ''}
+  ${({ flex }) => flex ? `flex:${flex};` : ''}
 `;
 
 const PlayerDetails = styled(FlexColumn)`
-  flex:1;
+  flex: 1;
 `;
 
 const StartNewGameButton = styled.View`
@@ -245,7 +249,7 @@ const AddPlayerTouch = styled.TouchableOpacity`
 `;
 
 const ReplaceImage = styled.TouchableOpacity`
-  
+
 `;
 const RemovePlayerTouch = styled.TouchableOpacity`
 

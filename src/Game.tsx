@@ -17,6 +17,7 @@ export default () => {
     <GameContextProvider>
       <NavigationContainer>
         <Stack.Navigator
+          initialRouteName={'Welcome'}
           screenOptions={{
             headerShown: false,
             autoHideHomeIndicator: true,

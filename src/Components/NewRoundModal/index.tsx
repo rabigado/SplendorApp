@@ -2,17 +2,21 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Animated, Easing, Modal } from 'react-native';
 import styled from 'styled-components/native';
 import { GameContext } from '../../context/context';
+import { calculatePlayerPoints } from '../WinnerModal';
 
 
 const NewRoundModal = ({fullScreen}:{fullScreen?:boolean}) => {
-  const {game:{ currentRound}} = useContext(GameContext);
+  const {game:{ currentRound,players,settings}} = useContext(GameContext);
   const [newRoundModalOpen, setNewRoundModalOpen] = useState(false);
 
   useEffect(()=>{
-    setNewRoundModalOpen(true);
-    setTimeout(()=>{
-      setNewRoundModalOpen(false);
-    },3000);
+    const playerOverWinCondition = players.filter(player => calculatePlayerPoints(player) >= (settings?.winCondition ?? 15));
+    if (playerOverWinCondition.length === 0){
+      setNewRoundModalOpen(true);
+      setTimeout(()=>{
+        setNewRoundModalOpen(false);
+      },3000);
+    }
   },[currentRound]);
 
   const rotateY = useRef(new Animated.Value(0)).current;
@@ -43,7 +47,8 @@ const NewRoundModal = ({fullScreen}:{fullScreen?:boolean}) => {
     }
   }, [newRoundModalOpen]);
 
-  return <Modal  animationType="slide" transparent={!fullScreen} statusBarTranslucent={true} visible={newRoundModalOpen}
+  return <Modal
+    animationType="slide" transparent={!fullScreen} statusBarTranslucent={true} visible={newRoundModalOpen}
                  onRequestClose={() => setNewRoundModalOpen(false)}>
     <NewRoundBodyContainer>
       <NewRoundBodyText style={rotate2}>
