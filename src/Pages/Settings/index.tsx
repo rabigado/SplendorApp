@@ -59,7 +59,7 @@ export default ({ navigation }: SettingsProps) => {
 
   const newGameSettings: ISettings = {
     numberOfTokens: players.length <= 2 ? 4 : players.length === 4 ? 7 : 5,
-    winCondition: 2,
+    winCondition: 15,
     nobles: players.length + 1,
     goldTokens: 5
   };
