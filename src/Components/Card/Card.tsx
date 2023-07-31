@@ -9,7 +9,7 @@ import { groupBy, map, noop } from 'lodash';
 import { BaseText, GemImage } from '../../shardStyles';
 import { GemsIcons } from '../../Entities/Gem';
 
-export default (props: ICard & {
+const Card =  (props: ICard & {
   processable?: boolean,
   canBuy?:boolean,
   faceUp?: boolean,
@@ -43,7 +43,7 @@ export default (props: ICard & {
       ],
     };
   }, []);
-  return (<Card style={props.style} canBuy={props.canBuy}>
+  return (<CardContainer style={props.style} canBuy={props.canBuy}>
       <TouchableOpacity
         onPress={() => {
           props.onPress?.();
@@ -81,9 +81,10 @@ export default (props: ICard & {
           </Back>
         </View>
       </TouchableOpacity>
-    </Card>
+    </CardContainer>
   );
 };
+export default Card
 
 const CardCostContainer = styled.View`
   display: flex;
@@ -119,7 +120,7 @@ const CardHeader = styled.View`
   padding: 2px 4px 0;
 `;
 
-const Card = styled.View<{canBuy?:boolean}>`
+const CardContainer = styled.View<{canBuy?:boolean}>`
   ${({canBuy,theme})=>canBuy ? `border:2px solid ${theme.colors.lightGold};`:''}
   border-color: ${({ theme }) => theme.colors.lightText};
   border-radius: 4px;

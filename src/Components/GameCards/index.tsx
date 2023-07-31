@@ -48,5 +48,5 @@ const CardLevelRow = styled(FlexRow)`
 `;
 
 const BoardSection = styled(FlexColumn)`
-  overflow: hidden;
+  width: 350px;
 `;

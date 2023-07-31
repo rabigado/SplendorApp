@@ -13,6 +13,7 @@ export enum ActionTypes {
   COIN_TO_PLAYER = 'COIN_TO_PLAYER',
   PLAYER_BUY_CARD = 'PLAYER_BUY_CARD',
   PLAYER_RESERVE_CARD = 'PLAYER_RESERVE_CARD',
+  PLAYER_RESERVE_CARD_FROM_DECK = 'PLAYER_RESERVE_CARD_FROM_DECK',
   PLAYER_BUY_RESERVED_CARD = 'PLAYER_BUY_RESERVED_CARD'
 }
 
@@ -94,14 +95,28 @@ export const gameReducer = (state: IGameState, action: IAction) => {
         currentRound: nextPlayerId === 0 ? state.currentRound + 1 : state.currentRound,
       } as IGameState;
 
+    case ActionTypes.PLAYER_RESERVE_CARD_FROM_DECK:
+      if (action.card) {
+        const cardLevel = action.card.cardLevel as 1 | 2 | 3;
+        const deck = state.dealer?.cards?.[cardLevel - 1];
+        const card = deck?.splice(deck.findIndex(cardInRow => cardInRow?.id === action.card!.id), 1)[0];
+        if (card){
+          card.faceUp = false;
+          card && state.players[state.currentPlayerId].savedCards.push(card);
+        }
+      }
+      return { ...state, currentPlayerId: nextPlayerId, currentRound: nextPlayerId === 0 ? state.currentRound + 1 : state.currentRound };
     case ActionTypes.PLAYER_RESERVE_CARD:
       if (action.card) { //TODO: unify duplicate
         const cardLevel = action.card.cardLevel as 1 | 2 | 3;
         const row = state.board?.[`row${cardLevel}`];
         const card = row?.splice(row.findIndex(cardInRow => cardInRow?.id === action.card!.id), 1)[0];
-        const newCard = card ? state.dealer?.cards[card.cardLevel - 1]?.pop() : undefined;
-        newCard && row.push(newCard);
-        card && state.players[state.currentPlayerId].savedCards.push(card);
+        if (card){
+          const newCard = card ? state.dealer?.cards[card.cardLevel - 1]?.pop() : undefined;
+          newCard && row.push(newCard);
+          card.faceUp = true;
+          state.players[state.currentPlayerId].savedCards.push(card);
+        }
       }
       return { ...state, currentPlayerId: nextPlayerId, currentRound: nextPlayerId === 0 ? state.currentRound + 1 : state.currentRound };
     case ActionTypes.PLAYER_BUY_CARD:
@@ -112,7 +127,7 @@ export const gameReducer = (state: IGameState, action: IAction) => {
         const newCard = card ? state.dealer?.cards[card.cardLevel - 1]?.pop() : undefined;
         const player = state.players[state.currentPlayerId];
         newCard && row.push(newCard);
-        card && player.cards.push(card);
+        card && player.cards.push({ ...card,faceUp: true });
         const noble = nobleVisitPlayer(state.nobles, player.cards);
         if (noble) {
           state.nobles.splice(state.nobles.findIndex(n => n.id === noble.id), 1);
@@ -199,7 +214,6 @@ export const gameReducer = (state: IGameState, action: IAction) => {
         },
       } as IGameState;
     case ActionTypes.NEW_GAME:
-      console.log("NEW_GAME::gameInitialState",gameInitialState.settings,gameInitialState.players);
       return cloneDeep(gameInitialState);
     default:
       return state;

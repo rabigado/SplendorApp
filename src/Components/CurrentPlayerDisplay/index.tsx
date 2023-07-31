@@ -37,7 +37,7 @@ const PlayerSingleResourceView = ({ gemValue, cardValue, imageIndex }: {
   </View>;
 };
 
-export default ({playerId}:{playerId:number}) => {
+export default ({playerId}:{playerId?:number}) => {
   const { game: { currentPlayerId, players } } = useContext(GameContext);
   const [showReserved,setShowReserved] = useState(false);
   const [showOwned,setShowOwned] = useState(false);
@@ -47,6 +47,7 @@ export default ({playerId}:{playerId:number}) => {
     <StyledImageBackground source={background} resizeMode="stretch" style={{ flex: 1 }}>
       <StyledRow>
         <CountContainer>
+          {/*TODO: text should be more visible*/}
           <View><BaseText>Gem</BaseText></View>
           <CoinValue>
             <BaseText>

@@ -11,7 +11,7 @@ const NewRoundModal = ({fullScreen}:{fullScreen?:boolean}) => {
 
   useEffect(()=>{
     const playerOverWinCondition = players.filter(player => calculatePlayerPoints(player) >= (settings?.winCondition ?? 15));
-    if (playerOverWinCondition.length === 0){
+    if (playerOverWinCondition.length === 0 && currentRound > 1){
       setNewRoundModalOpen(true);
       setTimeout(()=>{
         setNewRoundModalOpen(false);

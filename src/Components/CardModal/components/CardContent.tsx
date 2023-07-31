@@ -5,22 +5,27 @@ import styled from 'styled-components/native';
 import theme from '../../../theme/theme';
 import { ICard } from '../../../Entities/Deck';
 
-export default function({selectedCard, children, hideBackground}:{selectedCard:ICard,children:JSX.Element, hideBackground?:boolean}){
+export default function({ selectedCard, children, hideBackground, isCardFaceUp }: {
+  selectedCard: ICard,
+  children: JSX.Element,
+  hideBackground?: boolean,
+  isCardFaceUp: boolean,
+}) {
   return <ModalContent hideBackground={hideBackground}>
     {selectedCard ? <Card
       cardSize={{ width: 100, height: 150 }}
       onPress={noop}
-      faceUp={true}
-      {...selectedCard} /> : null}
+      processable={true}
+      {...selectedCard} faceUp={isCardFaceUp} /> : null}
     {children}
-  </ModalContent>
+  </ModalContent>;
 }
 
-const ModalContent = styled.View<{hideBackground?:boolean}>`
+const ModalContent = styled.View<{ hideBackground?: boolean }>`
   position: relative;
   height: 100%;
   width: 100%;
-  background-color: ${({hideBackground})=>hideBackground ? 'transparent' : theme.colors.lightWhite};
+  background-color: ${({ hideBackground }) => hideBackground ? 'transparent' : theme.colors.lightWhite};
   display: flex;
   flex-direction: row;
   justify-content: center;

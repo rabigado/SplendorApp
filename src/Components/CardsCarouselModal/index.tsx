@@ -34,7 +34,7 @@ export default function({ cards, visible, setModalOpen }: {
                 renderItem={({ item }: { item: unknown }) => {
                   const disabled = !canPlayerBuyCard(item as ICard, player);
                   return <BorderView>
-                    <CardContent selectedCard={item as ICard} hideBackground={true}
+                    <CardContent isCardFaceUp={true} selectedCard={item as ICard} hideBackground={true}
                                  children={<CardActions>
                                    <ModalButton onPress={() => buyReservedCard(item as ICard)}
                                                 disabled={disabled}>

@@ -49,7 +49,7 @@ export default ()=>{
 
 
 const PlayerSection = styled(FlexColumn)`
-  flex: 1;
+  width: 100px;
 `;
 
 const PlayerView = styled.View<{ isCurrent: boolean }>`

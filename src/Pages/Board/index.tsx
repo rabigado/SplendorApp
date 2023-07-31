@@ -1,4 +1,6 @@
-import React, { Suspense, useContext, useEffect, useState } from 'react';
+import React, {
+  // Suspense,
+  useContext, useEffect, useState } from 'react';
 import { GameContext } from '../../context/context';
 import styled from 'styled-components/native';
 import { FlexColumn, FlexRow } from '../../shardStyles';
@@ -10,10 +12,12 @@ import NewRoundModal from '../../Components/NewRoundModal';
 import { aiTurn } from '../../utils/aiUtils';
 import { ActionTypes } from '../../context/reducer';
 import WinnerModal from '../../Components/WinnerModal';
-
-const Bank = React.lazy(() => import('../../Components/Bank'));
-const Decks = React.lazy(() => import('../../Components/Decks'));
-const GameCards = React.lazy(() => import('../../Components/GameCards'));
+import Bank from '../../Components/Bank';
+import Decks from '../../Components/Decks';
+import GameCards from '../../Components/GameCards';
+// const Bank = React.lazy(() => import('../../Components/Bank'));
+// const Decks = React.lazy(() => import('../../Components/Decks'));
+// const GameCards = React.lazy(() => import('../../Components/GameCards'));
 
 // export type GameProps = NativeStackScreenProps<
 //   RootStackParamList,
@@ -50,9 +54,9 @@ export default () => {
   }, [game.currentPlayerId]);
 
   return <GameScreenRoot>
-    <Suspense fallback={<GameScreenRoot><NewRoundModal fullScreen={true} /></GameScreenRoot>}>
+    {/*<Suspense fallback={<GameScreenRoot><NewRoundModal fullScreen={true} /></GameScreenRoot>}>*/}
       <Players />
-      <Decks />
+      <Decks setSelectedCard={setSelectedCard}/>
       <GameCards setSelectedCard={setSelectedCard} />
       <Bank />
       <NoblesSection>
@@ -63,7 +67,7 @@ export default () => {
       <CardModal selectedCard={selectedCard} setSelectedCard={setSelectedCard} />
       <WinnerModal fullScreen={true}/>
       <NewRoundModal />
-    </Suspense>
+    {/*</Suspense>*/}
   </GameScreenRoot>;
 };
 

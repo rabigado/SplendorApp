@@ -61,7 +61,7 @@ export default ({ navigation }: SettingsProps) => {
     numberOfTokens: players.length <= 2 ? 4 : players.length === 4 ? 7 : 5,
     winCondition: 15,
     nobles: players.length + 1,
-    goldTokens: 5
+    goldTokens: 5,
   };
   const handleChangeName = (index: number, event: string) => {
     const values = [...players];

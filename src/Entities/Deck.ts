@@ -45,6 +45,7 @@ export interface ICard {
   cost: IGem[];
   cardBackIndex: number;
   cardLevel: number;
+  faceUp?: boolean;
 }
 
 const shuffle = <T>(arr: T[]) => {
@@ -86,7 +87,9 @@ export function mapJsonToCard(level: number) {
 
 export function getCardByLevel(dealer:IDealer, level: 0 | 1 | 2): ICard | null {
   if (dealer.cards[level].length > 0) {
-    return dealer.cards[level].pop() as ICard;
+    const card = dealer.cards[level].pop() as ICard;
+    card.faceUp = true;
+    return card;
   }
 
   return null;
