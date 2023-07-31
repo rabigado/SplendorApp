@@ -3,14 +3,17 @@ import { playersImages } from '../../Entities/Settings';
 import { sum } from 'lodash';
 import { BaseText, ButtonText, FlexColumn, StyledButton } from '../../shardStyles';
 import theme from '../../theme/theme';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components/native';
 import { GameContext } from '../../context/context';
 import { ActionTypes } from '../../context/reducer';
+import { TouchableOpacity } from 'react-native';
+import PlayerDetailsModal from '../PlayerDetailsModal';
+import { IPlayer } from '../../Entities/Player';
 
 export default ()=>{
   const {game:{players,currentPlayerId},setPlayerAction,currentPlayerAction,dispatch} = useContext(GameContext);
-
+  const [selectedPlayer, setSelectedPlayer] = useState<IPlayer>();
   const commit = () => {
     if (currentPlayerAction) {
       dispatch(currentPlayerAction);
@@ -27,7 +30,9 @@ export default ()=>{
   return <PlayerSection>
     {players.map((player, index) => <PlayerView isCurrent={currentPlayerId === index}
                                                      key={`${player.playerName}-${index}`}>
-      <Avatar size={currentPlayerId === index ? 80 : 60} imageUrl={playersImages[player.imageIndex]} />
+      <TouchableOpacity onPress={()=>setSelectedPlayer(player)}>
+        <Avatar size={currentPlayerId === index ? 80 : 60} imageUrl={playersImages[player.imageIndex]} />
+      </TouchableOpacity>
       <PointIndicator diameter={currentPlayerId === index ? 80 : 60}>
         <PointText>
           {sum(player.cards.map(c => c.value ?? 0))}
@@ -38,6 +43,7 @@ export default ()=>{
         <ButtonText fontSize={theme.fontSizes.body1}>Finish round</ButtonText>
       </FloatingStyledButton> : null}
     </PlayerView>)}
+    <PlayerDetailsModal player={selectedPlayer} setSelectedPlayer={setSelectedPlayer} />
   </PlayerSection>
 }
 

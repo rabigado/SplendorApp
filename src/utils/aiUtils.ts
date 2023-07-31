@@ -3,7 +3,7 @@ import { ICard } from '../Entities/Deck';
 import { ActionTypes, IAction, IBank, IGameState } from '../context/reducer';
 import { buyCard, canPlayerBuyCard } from './cardsUtil';
 import { IGem } from '../Entities/Gem';
-import { cloneDeep, Comparator, forEach, maxBy, sum, uniqWith, values } from 'lodash';
+import { cloneDeep, Comparator, forEach, maxBy, omit, sum, uniqWith, values } from 'lodash';
 
 const sortCardByCost = (cards: ICard[]) => {
   return [...cards].sort((a, b) => {
@@ -56,7 +56,7 @@ export function aiTurn(player: IPlayer, bank: IBank, cards: ICard[], game:IGameS
   }
 
   if (gems.length <= 2 && areAllElementsUnique(gems,(gemA,gemB)=>gemA.color === gemB.color)){
-    forEach(localBank, (value)=>{
+    forEach(omit(localBank,'Gold'), (value)=>{
       if (value.length && canPlayerTakeCoin(value[0],gems,player,localBank)){
         gems.push(value.pop() as IGem);
       }

@@ -1,6 +1,7 @@
 import { CardCost, getGemByColor, IGem, mapCharToGemType } from './Gem';
 import jsonCards from '../assets/cards.json';
 import { groupBy, map } from 'lodash';
+import { randomId } from '../Pages/Settings';
 
 
 export const CardsImages = [
@@ -68,9 +69,9 @@ export function mapJsonToCard(level: number) {
     .filter(card => card.level === level)
   )
     .map(
-      (card, index) =>
+      (card) =>
         ({
-          id: index,
+          id: randomId(),
           color: card.color,
           cardBackIndex: level - 1,
           cardLevel: level,

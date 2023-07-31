@@ -2,11 +2,9 @@ import styled from 'styled-components/native';
 import React, { useContext, useState } from 'react';
 import { GameContext } from '../../context/context';
 import { View } from 'react-native';
-import { keys, map, sum } from 'lodash';
+import { isUndefined, keys, map, sum } from 'lodash';
 import { BaseText, FlexColumn, FlexRow, GemImage, StyledButton } from '../../shardStyles';
 import { GemsIcons, GemType } from '../../Entities/Gem';
-import Card from '../Card/Card';
-import { ICard } from '../../Entities/Deck';
 import CardsCarouselModal from '../CardsCarouselModal';
 
 const background = require('../../assets/images/oldRexture.jpeg');
@@ -39,11 +37,11 @@ const PlayerSingleResourceView = ({ gemValue, cardValue, imageIndex }: {
   </View>;
 };
 
-export default () => {
+export default ({playerId}:{playerId:number}) => {
   const { game: { currentPlayerId, players } } = useContext(GameContext);
   const [showReserved,setShowReserved] = useState(false);
   const [showOwned,setShowOwned] = useState(false);
-  const player = currentPlayerId !== -1 ? players[currentPlayerId] : null;
+  const player = playerId ? players.find(p=>p.id === playerId) : (currentPlayerId !== -1 ? players[currentPlayerId] : null);
 
   return <PlayerData>
     <StyledImageBackground source={background} resizeMode="stretch" style={{ flex: 1 }}>
@@ -72,18 +70,18 @@ export default () => {
                                   cardValue={0}
                                   gemValue={player?.gold ?? 0}
         />
-        <FlexColumn>
-          <ShowDeckButton disabled={player?.savedCards.length === 0} onPress={()=>setShowReserved(true)}>
-           <BaseText>
-             {`reserved ${player?.savedCards.length}/3`}
-           </BaseText>
+        {isUndefined(playerId) ? <FlexColumn>
+          <ShowDeckButton disabled={player?.savedCards.length === 0} onPress={() => setShowReserved(true)}>
+            <BaseText>
+              {`reserved ${player?.savedCards.length}/3`}
+            </BaseText>
           </ShowDeckButton>
-          <ShowDeckButton disabled={player?.cards.length === 0} onPress={()=>setShowReserved(true)}>
+          <ShowDeckButton disabled={player?.cards.length === 0} onPress={() => setShowReserved(true)}>
             <BaseText>
               owned {`(${player?.cards.length})`}
             </BaseText>
           </ShowDeckButton>
-        </FlexColumn>
+        </FlexColumn> : null}
       </StyledRow>
     </StyledImageBackground>
     <CardsCarouselModal cards={player?.savedCards ?? []} visible={showReserved} setModalOpen={setShowReserved} />

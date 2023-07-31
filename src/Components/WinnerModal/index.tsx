@@ -2,12 +2,14 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Animated, Easing, FlatList, Modal } from 'react-native';
 import styled from 'styled-components/native';
 import { GameContext } from '../../context/context';
-import { maxBy, sum } from 'lodash';
+import { maxBy, sortBy, sum } from 'lodash';
 import { IPlayer } from '../../Entities/Player';
 import { BaseText, StyledButton } from '../../shardStyles';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigation } from '../../Game';
 import Card from '../Card/Card';
+import Noble from '../Card/Noble/Noble';
+import { ActionTypes, gameInitialState } from '../../context/reducer';
 
 const DEFAULT_WIN_CONDITION = 15;
 
@@ -17,7 +19,7 @@ export function calculatePlayerPoints(player: IPlayer) {
 
 const WinnerModal = ({ fullScreen }: { fullScreen?: boolean }) => {
   const navigation  = useNavigation<StackNavigation>();
-  const { game, game: { currentRound } } = useContext(GameContext);
+  const { game, game: { currentRound } , dispatch } = useContext(GameContext);
   const [winnerModalOpen, setWinnerModalOpen] = useState(false);
   const [winner, setWinner] = useState<IPlayer>();
 
@@ -63,6 +65,7 @@ const WinnerModal = ({ fullScreen }: { fullScreen?: boolean }) => {
         WINNER: {winner?.playerName}
       </NewRoundBodyText>
       <StyledButton onPress={() => {
+        dispatch({type:ActionTypes.NEW_GAME, gameState:gameInitialState})
         navigation.reset({
           index: 0,
           routes: [{ name: 'Settings' }],
@@ -70,11 +73,11 @@ const WinnerModal = ({ fullScreen }: { fullScreen?: boolean }) => {
       }}>
         <WinnerText>go again</WinnerText>
       </StyledButton>
-      <FlatList horizontal={true} data={winner?.cards} renderItem={({ item }) => {
+      <FlatList horizontal={true} data={sortBy(winner?.cards,['cardLevel','value'])} renderItem={({ item }) => {
         return <CardsContainer key={item.id}>
           <BaseText>
-            <Card cardSize={{ width: 100, height: 150 }}
-                                                      faceUp={true} {...item} />
+            {item.cardLevel < 4 ? <Card cardSize={{ width: 100, height: 150 }}
+                   faceUp={true} {...item} /> : <Noble nobleCard={item} />}
           </BaseText>
         </CardsContainer>;
       }} />

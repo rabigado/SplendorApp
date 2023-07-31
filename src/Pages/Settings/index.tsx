@@ -21,8 +21,8 @@ export type SettingsProps = NativeStackScreenProps<
 >;
 const MinPlayers = 2;
 const MaxPlayers = 4;
-const randomId = () => {
-  return Math.random() * 100;
+export const randomId = () => {
+  return Math.round(Math.random() * 100000);
 };
 export default ({ navigation }: SettingsProps) => {
   const { dispatch, game: { settings } } = useContext(GameContext);
@@ -59,7 +59,7 @@ export default ({ navigation }: SettingsProps) => {
 
   const newGameSettings: ISettings = {
     numberOfTokens: players.length <= 2 ? 4 : players.length === 4 ? 7 : 5,
-    winCondition: 15,
+    winCondition: 2,
     nobles: players.length + 1,
     goldTokens: 5
   };

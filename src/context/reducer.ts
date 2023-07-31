@@ -199,6 +199,7 @@ export const gameReducer = (state: IGameState, action: IAction) => {
         },
       } as IGameState;
     case ActionTypes.NEW_GAME:
+      console.log("NEW_GAME::gameInitialState",gameInitialState.settings,gameInitialState.players);
       return cloneDeep(gameInitialState);
     default:
       return state;
