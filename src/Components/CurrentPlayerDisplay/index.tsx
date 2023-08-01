@@ -39,8 +39,9 @@ const PlayerSingleResourceView = ({ gemValue, cardValue, imageIndex }: {
 
 export default ({playerId}:{playerId?:number}) => {
   const { game: { currentPlayerId, players } } = useContext(GameContext);
-  const [showReserved,setShowReserved] = useState(false);
+  const [showCards,setShowCards] = useState(false);
   const [showOwned,setShowOwned] = useState(false);
+  const [cardsToShow,setCardsToShow] = useState<'owned'|'saved'>('owned');
   const player = playerId ? players.find(p=>p.id === playerId) : (currentPlayerId !== -1 ? players[currentPlayerId] : null);
 
   return <PlayerData>
@@ -72,12 +73,18 @@ export default ({playerId}:{playerId?:number}) => {
                                   gemValue={player?.gold ?? 0}
         />
         {isUndefined(playerId) ? <FlexColumn>
-          <ShowDeckButton disabled={player?.savedCards.length === 0} onPress={() => setShowReserved(true)}>
+          <ShowDeckButton disabled={player?.savedCards.length === 0} onPress={() => {
+            setCardsToShow('saved');
+            setShowCards(true);
+          }}>
             <BaseText>
               {`reserved ${player?.savedCards.length}/3`}
             </BaseText>
           </ShowDeckButton>
-          <ShowDeckButton disabled={player?.cards.length === 0} onPress={() => setShowReserved(true)}>
+          <ShowDeckButton disabled={player?.cards.length === 0} onPress={() => {
+            setCardsToShow('owned');
+            setShowCards(true);
+          }}>
             <BaseText>
               owned {`(${player?.cards.length})`}
             </BaseText>
@@ -85,8 +92,8 @@ export default ({playerId}:{playerId?:number}) => {
         </FlexColumn> : null}
       </StyledRow>
     </StyledImageBackground>
-    <CardsCarouselModal cards={player?.savedCards ?? []} visible={showReserved} setModalOpen={setShowReserved} />
-    <CardsCarouselModal cards={player?.cards ?? []} visible={showOwned} setModalOpen={setShowOwned} />
+    <CardsCarouselModal cards={cardsToShow === 'owned' ? (player?.cards ?? []) : (player?.savedCards ?? [])} visible={showCards} setModalOpen={setShowCards} />
+    {/*<CardsCarouselModal cards={player?.cards ?? []} visible={showOwned} setModalOpen={setShowOwned} />*/}
   </PlayerData>;
 };
 

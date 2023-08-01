@@ -23,7 +23,7 @@ export const nobleVisitPlayer = (nobles:ICard[], cards:ICard[]):ICard | undefine
 };
 
 export const canPlayerBuyCard = (selectedCard: ICard, player:IPlayer) => {
-  if (!selectedCard || player.cards.includes(selectedCard)) {
+  if (!selectedCard ||  player.cards.some(card=> card.id === selectedCard.id)) {
     return false;
   }
   const playerGemCounts = {

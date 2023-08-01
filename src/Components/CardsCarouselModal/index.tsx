@@ -7,6 +7,7 @@ import { GameContext } from '../../context/context';
 import { BaseText, FlexColumn, StyledButton } from '../../shardStyles';
 import { ActionTypes } from '../../context/reducer';
 import { buyCard, canPlayerBuyCard } from '../../utils/cardsUtil';
+import { includes } from 'lodash';
 
 export default function({ cards, visible, setModalOpen }: {
   cards: ICard[],
