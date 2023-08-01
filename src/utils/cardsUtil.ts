@@ -2,7 +2,7 @@ import { ICard } from '../Entities/Deck';
 import { GemType, IGem } from '../Entities/Gem';
 import { IPlayer } from '../Entities/Player';
 import { every, first, forEach, groupBy, reduce } from 'lodash';
-import { ActionTypes, IAction, IBank, IGameState } from '../context/reducer';
+import { ActionTypes, IAction, IGameState } from '../context/reducer';
 
 const MIN_NOBLE_COST_LENGTH = 8;
 
