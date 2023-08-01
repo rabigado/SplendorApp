@@ -22,14 +22,17 @@ export type SettingsProps = NativeStackScreenProps<
 const MinPlayers = 2;
 const MaxPlayers = 4;
 export const randomId = () => {
-  return Math.round(Math.random() * 100000);
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
 };
 export default ({ navigation }: SettingsProps) => {
   const { dispatch, game: { settings } } = useContext(GameContext);
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
   const initialPlayerState = new Array(MinPlayers).fill(0).map((_, index) => {
     return {
-      id: randomId(),
+      id: Math.random() * 1000,
       aiPlayer: false,
       playerName: `Player-${index + 1}`,
       imageIndex: index,
@@ -38,11 +41,11 @@ export default ({ navigation }: SettingsProps) => {
         [GemType.Onyx]: [],//...new Array(25).fill(getGemByColor('black') as IGem)
         [GemType.Emerald]: [],//...new Array(25).fill(getGemByColor('green') as IGem)
         [GemType.Sapphire]: [],//...new Array(25).fill(getGemByColor('blue') as IGem)
-        [GemType.Diamond]: []//...new Array(25).fill(getGemByColor('white') as IGem)
+        [GemType.Diamond]: [],//...new Array(25).fill(getGemByColor('white') as IGem)
       },
       cards: [],
       savedCards: [],
-      gold: 0
+      gold: 0,
     };
   });
   const [players, setPlayers] = useState<IPlayer[]>(cloneDeep(initialPlayerState));
@@ -81,7 +84,7 @@ export default ({ navigation }: SettingsProps) => {
         ? [
           ...players,
           {
-            id: randomId(),
+            id: Math.random() * 1000,
             playerName: `Player-${index + 1}`,
             imageIndex: index,
             playerGems: {
@@ -89,13 +92,13 @@ export default ({ navigation }: SettingsProps) => {
               [GemType.Onyx]: [],
               [GemType.Emerald]: [],
               [GemType.Sapphire]: [],
-              [GemType.Diamond]: []
+              [GemType.Diamond]: [],
             },
             cards: [],
             gold: 0,
             savedCards: [],
-            aiPlayer: false
-          }
+            aiPlayer: false,
+          },
         ]
         : players.length > MinPlayers
           ? players.filter((_, indexToRemove) => index !== indexToRemove)
@@ -112,14 +115,14 @@ export default ({ navigation }: SettingsProps) => {
   const handleStartGame = () => {
     dispatch?.({
       type: ActionTypes.SETTINGS,
-      gameState: { settings: newGameSettings, players }
+      gameState: { settings: newGameSettings, players },
     });
   };
 
   const setPlayerAi = (playerNumber: number) => {
     setPlayers([...players.map((p, index) => ({
       ...p,
-      aiPlayer: index === playerNumber ? !p.aiPlayer : p.aiPlayer
+      aiPlayer: index === playerNumber ? !p.aiPlayer : p.aiPlayer,
     } as IPlayer))]);
   };
 

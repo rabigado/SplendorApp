@@ -77,7 +77,7 @@ const WinnerModal = ({ fullScreen }: { fullScreen?: boolean }) => {
         return <CardsContainer key={item.id}>
           <BaseText>
             {item.cardLevel < 4 ? <Card cardSize={{ width: 100, height: 150 }}
-                   faceUp={true} {...item} /> : <Noble nobleCard={item} />}
+                   faceUp={true} card={item} /> : <Noble nobleCard={item} />}
           </BaseText>
         </CardsContainer>;
       }} />

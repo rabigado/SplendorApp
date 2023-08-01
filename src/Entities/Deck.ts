@@ -38,7 +38,7 @@ export const NobleImages = [
 
 export interface ICard {
   color: string;
-  id: number;
+  id: string;
   imageIndex: number;
   value?: number;
   gemValue: IGem;

@@ -32,7 +32,7 @@ export default function({ player, setSelectedPlayer }: {
 
                       return <CardsContainer key={item.id}>
                         <Card cardSize={{ width: 50, height: 65 }}
-                               {...item} faceUp={!item.faceUp} />
+                               card={item} faceUp={item.faceUp} />
 
                       </CardsContainer>;
                     }} />
@@ -44,7 +44,7 @@ export default function({ player, setSelectedPlayer }: {
                       return <CardsContainer key={item.id}>
                         <BaseText>
                           <Card cardSize={{ width: 50, height: 65 }}
-                                {...item} faceUp={true} />
+                                card={item} faceUp={true} />
                         </BaseText>
                       </CardsContainer>;
                     }} />

@@ -5,6 +5,8 @@ import { GemType, getGemByColor, IGem } from '../Entities/Gem';
 import jsonCards from '../assets/cards.json';
 import { nobleVisitPlayer } from '../utils/cardsUtil';
 import { cloneDeep, isNumber, map, shuffle, take } from 'lodash';
+import { randomId } from '../Pages/Settings';
+import { act } from 'react-test-renderer';
 
 export enum ActionTypes {
   NEW_GAME = 'NEW_GAME',
@@ -110,7 +112,7 @@ export const gameReducer = (state: IGameState, action: IAction) => {
       if (action.card) { //TODO: unify duplicate
         const cardLevel = action.card.cardLevel as 1 | 2 | 3;
         const row = state.board?.[`row${cardLevel}`];
-        const card = row?.splice(row.findIndex(cardInRow => cardInRow?.id === action.card!.id), 1)[0];
+        const card = row?.splice(row?.map(c=>c?.id).indexOf(action.card.id), 1)[0];
         if (card){
           const newCard = card ? state.dealer?.cards[card.cardLevel - 1]?.pop() : undefined;
           newCard && row.push(newCard);
@@ -124,6 +126,7 @@ export const gameReducer = (state: IGameState, action: IAction) => {
         const cardLevel = action.card.cardLevel as 1 | 2 | 3;
         const row = state.board?.[`row${cardLevel}`];
         const card = row?.splice(row.findIndex(cardInRow => cardInRow?.id === action.card!.id), 1)[0];
+        console.log("case ActionTypes.PLAYER_BUY_CARD::", card?.id)
         const newCard = card ? state.dealer?.cards[card.cardLevel - 1]?.pop() : undefined;
         const player = state.players[state.currentPlayerId];
         newCard && row.push(newCard);
@@ -155,9 +158,9 @@ export const gameReducer = (state: IGameState, action: IAction) => {
           mapJsonToCard(2),
           mapJsonToCard(3),
         ],
-        nobles: jsonCards.nobles.map((noble, index) => {
+        nobles: jsonCards.nobles.map((noble) => {
           return {
-            id: index,
+            id: randomId(),
             cardLevel: 4,
             cardBackIndex: 3,
             value: 3,

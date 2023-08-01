@@ -2,8 +2,7 @@ import { ICard, NobleImages } from '../../../Entities/Deck';
 import React from 'react';
 import styled from 'styled-components/native';
 import theme from '../../../theme/theme';
-import { BaseText, FlexColumn, GemImage } from '../../../shardStyles';
-import { GemsIcons } from '../../../Entities/Gem';
+import { BaseText, FlexColumn } from '../../../shardStyles';
 import { groupBy, map } from 'lodash';
 
 export default function({nobleCard}:{nobleCard:ICard}){

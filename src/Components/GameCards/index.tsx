@@ -17,21 +17,21 @@ export default function({ setSelectedCard }: { setSelectedCard(card: ICard): voi
         onPress={() => setSelectedCard(card)}
         canBuy={canPlayerBuyCard(card, player)}
         faceUp={true}
-        key={`deck-${1}card-${card.id}`} {...card} /> : null)}
+        key={`deck-${1}card-${card.id}`} card={card} /> : null)}
     </CardLevelRow>
     <CardLevelRow>
       {board.row2.map(card => card ? <Card
         onPress={() => setSelectedCard(card)}
         canBuy={canPlayerBuyCard(card, player)}
         faceUp={true}
-        key={`deck-${2}card-${card.id}`} {...card} /> : null)}
+        key={`deck-${2}card-${card.id}`} card={card} /> : null)}
     </CardLevelRow>
     <CardLevelRow>
       {board.row1.map(card => card ? <Card
         onPress={() => setSelectedCard(card)}
         canBuy={canPlayerBuyCard(card, player)}
         faceUp={true}
-        key={`deck-${3}card-${card.id}`} {...card} /> : null)}
+        key={`deck-${3}card-${card.id}`} card={card} /> : null)}
     </CardLevelRow>
     <CurrentPlayerDisplay />
   </BoardSection>;

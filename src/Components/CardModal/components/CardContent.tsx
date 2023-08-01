@@ -16,7 +16,7 @@ export default function({ selectedCard, children, hideBackground, isCardFaceUp }
       cardSize={{ width: 100, height: 150 }}
       onPress={noop}
       processable={true}
-      {...selectedCard} faceUp={isCardFaceUp} /> : null}
+      card={selectedCard} faceUp={isCardFaceUp} /> : null}
     {children}
   </ModalContent>;
 }

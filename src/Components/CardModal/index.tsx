@@ -19,7 +19,6 @@ export default function CardModal ({ selectedCard, setSelectedCard }: {
    return selectedCard ? canPlayerBuyCard(selectedCard,player) : false;
   }, [player, selectedCard]);
   const isCardFaceUp = !![...game.board.row1,...game.board.row2,...game.board.row3].find(card=>card?.id === selectedCard?.id);
-
   const reserveCard = (card: ICard) => {
     if (game.bank.Gold.length && sum([...map(player.playerGems,(value)=>value.length),player.gold]) < 10) {
       player.gold++;
@@ -28,7 +27,7 @@ export default function CardModal ({ selectedCard, setSelectedCard }: {
       console.log('cant take more gold, has already 10 token or bank is out of gold');
     }
     dispatch({
-      type: isCardFaceUp ? ActionTypes.PLAYER_RESERVE_CARD_FROM_DECK : ActionTypes.PLAYER_RESERVE_CARD,
+      type: isCardFaceUp ? ActionTypes.PLAYER_RESERVE_CARD : ActionTypes.PLAYER_RESERVE_CARD_FROM_DECK,
       card,
       gameState: game,
     });
@@ -36,6 +35,7 @@ export default function CardModal ({ selectedCard, setSelectedCard }: {
   };
 
   const playerBuyCard = (cardToBuy: ICard) => {
+    console.log(cardToBuy.id,cardToBuy.cost.map(c=>c.color),cardToBuy.value ?? 0)
     const action = buyCard(cardToBuy,player,game);
     dispatch(action);
     setSelectedCard(undefined);

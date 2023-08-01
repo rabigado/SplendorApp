@@ -9,7 +9,8 @@ import { groupBy, map, noop } from 'lodash';
 import { BaseText, GemImage } from '../../shardStyles';
 import { GemsIcons } from '../../Entities/Gem';
 
-const Card =  (props: ICard & {
+const Card =  ({ card,...props }: {
+  card:ICard,
   processable?: boolean,
   canBuy?:boolean,
   faceUp?: boolean,
@@ -55,23 +56,23 @@ const Card =  (props: ICard & {
             <CardBackView
               cardSize={props.cardSize}
               resizeMethod={'resize'}
-              source={CardsBack[props.cardBackIndex]}
+              source={CardsBack[card.cardBackIndex]}
             />
           </Front>
           <Back style={bStyle} cardSize={props.cardSize}>
 
             <CardFrontView resizeMethod={'resize'}
                            cardSize={props.cardSize}
-                           source={CardsImages[props.imageIndex]}
+                           source={CardsImages[card.imageIndex]}
             >
               <CardHeader>
-                <Value cardSize={props.cardSize}>{props.value}</Value>
-                {props?.gemValue?.imageIndex ? <GemImage size={props.cardSize?.height ? props.cardSize?.height * 0.2 : 15}
-                                                         source={GemsIcons[props.gemValue.imageIndex]}
+                <Value cardSize={props.cardSize}>{card.value}</Value>
+                {card?.gemValue?.imageIndex ? <GemImage size={props.cardSize?.height ? props.cardSize?.height * 0.2 : 15}
+                                                         source={GemsIcons[card.gemValue.imageIndex]}
                                                          resizeMethod={'resize'} /> : null}
               </CardHeader>
               <CardCostContainer>
-                {map(groupBy(props.cost, cost => cost.color), (value, index) => {
+                {map(groupBy(card.cost, cost => cost.color), (value, index) => {
                   return <CardCost key={index} color={index}>
                     {value.length}
                   </CardCost>;
@@ -84,7 +85,7 @@ const Card =  (props: ICard & {
     </CardContainer>
   );
 };
-export default Card
+export default Card;
 
 const CardCostContainer = styled.View`
   display: flex;
